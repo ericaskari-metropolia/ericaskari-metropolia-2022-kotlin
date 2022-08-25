@@ -6,12 +6,12 @@ fun main() {
     val secretLotto = pickNDistinct(1, 40, 7).toList()
     println("DEBUG: secretLotto:   ${secretLotto.joinToString(" | ")}")
 
-    findLotto(secretLotto)
+    findLotto(secretLotto, false)
 
 //    playLotto()
 }
 
-fun findLotto(lotto: List<Int>): Pair<Int, List<Int>> {
+fun findLotto(lotto: List<Int>, verbose: Boolean = true): Pair<Int, List<Int>> {
     //  7 Distinct number
     //  Each can be between 1 and 40
 
@@ -51,6 +51,12 @@ fun findLotto(lotto: List<Int>): Pair<Int, List<Int>> {
         return lottoResult(getLottoGuessSample(), lotto) ?: throw Exception("Should not be possible.")
     }
 
+    fun log(data: Any) {
+        if (verbose) {
+            println(data)
+        }
+    }
+
     fun printGuessTable() {
         guesses.forEachIndexed { index, guess ->
             val correctGuessIndex = correctGuessIndexes[index]
@@ -58,7 +64,7 @@ fun findLotto(lotto: List<Int>): Pair<Int, List<Int>> {
             val printLabel = if (value != null) if (value >= 10) value else " $value" else "  "
             val list = guess.map { if (it >= 10) it else " $it" }.joinToString(" | ")
 
-            println(
+            log(
                 "Col $index [$printLabel]:   $list"
             )
         }
@@ -67,26 +73,27 @@ fun findLotto(lotto: List<Int>): Pair<Int, List<Int>> {
     //  Amount of guesses.
     var guessCount = 1
 
-    println("getLottoGuessSample: ${getLottoGuessSample().joinToString(" ")}")
+    log("getLottoGuessSample: ${getLottoGuessSample().joinToString(" ")}")
     var correctGuesses = correctLottoNumberCount()
 
     var indexToFindValueFor = 0
+    val incorrectGuesses = mutableSetOf<Int>()
 
     while (correctGuesses != 7) {
 
         //  Next possible option by considering other values and also guessed values.
 
-        val guessedNumber: Int = pickNextGuess(getAllGuessedNumbers().toSet())
+        val guessedNumber: Int = pickNextGuess(getAllGuessedNumbers().toSet(), incorrectGuesses)
             ?: throw Exception("Should not be possible to have guessed all the numbers.")
 
         val correctGuessesBeforeAdding = correctLottoNumberCount()
         guesses[indexToFindValueFor].add(guessedNumber)
         val correctGuessesAfterAdding = correctLottoNumberCount()
 
-        println("indexToFindValueFor:        $indexToFindValueFor")
-        println("correctGuessesBeforeAdding: $correctGuessesBeforeAdding")
-        println("correctGuessesAfterAdding:  $correctGuessesAfterAdding")
-        println("guessedNumber:              $guessedNumber")
+        log("indexToFindValueFor:        $indexToFindValueFor")
+        log("correctGuessesBeforeAdding: $correctGuessesBeforeAdding")
+        log("correctGuessesAfterAdding:  $correctGuessesAfterAdding")
+        log("guessedNumber:              $guessedNumber")
 
         printGuessTable()
 
@@ -95,30 +102,48 @@ fun findLotto(lotto: List<Int>): Pair<Int, List<Int>> {
 
         //  Previous guessed value was correct one.
         if (isPreviousGuessCorrect) {
-            println("Value at column with index of $indexToFindValueFor was already correct.")
+            log("Value at column with index of $indexToFindValueFor was already correct.")
             // Last element
+
             correctGuessIndexes[indexToFindValueFor] = guesses[indexToFindValueFor].count() - 2
+            //  We know that last element is incorrect
+            incorrectGuesses.add(guesses[indexToFindValueFor].last())
+
             indexToFindValueFor += 1
 
+
         } else if (isCurrentGuessCorrect) {
-            println("Added $guessedNumber to column with index of $indexToFindValueFor")
+            log("Added $guessedNumber to column with index of $indexToFindValueFor")
             // Last element
             correctGuessIndexes[indexToFindValueFor] = guesses[indexToFindValueFor].count() - 1
+            // We know that previous value is incorrect.
+            incorrectGuesses.add(guesses[indexToFindValueFor][guesses[indexToFindValueFor].count() - 2])
 
             //  When loop value is the correct one.
             indexToFindValueFor += 1
             correctGuesses = correctGuessesAfterAdding
+        } else {
+            //  Let's remove the added value and move on. Because it can be so that two correct value happen to be next
+            //  to each other
+            //  If previous value was incorrect then it means that this is also incorrect.
+            if (!incorrectGuesses.contains(guesses[indexToFindValueFor][guesses[indexToFindValueFor].count() - 2])) {
+                guesses[indexToFindValueFor].removeLast()
+                indexToFindValueFor += 1
+            }
         }
 
         guessCount = guessCount.inc()
 
 
-        if (indexToFindValueFor >= guesses.count() && correctGuesses != 7) {
-            throw Exception("Should have founded all numbers by now.")
+        if (indexToFindValueFor >= guesses.count()) {
+            indexToFindValueFor = 0
         }
 
-        println("\n------------\n")
+        log("\n------------\n")
     }
+
+    log("DEBUG: secretLotto:   ${lotto.joinToString(" | ")}")
+    printGuessTable()
     println("guessCount:            $guessCount")
 
     /*
@@ -132,9 +157,9 @@ fun findLotto(lotto: List<Int>): Pair<Int, List<Int>> {
     return Pair(0, listOf()) // comment this out when implementing the function
 }
 
-fun pickNextGuess(guessed: Set<Int>): Int? {
+fun pickNextGuess(guessed: Set<Int>, incorrectGuesses: Set<Int>): Int? {
     val options = pickNDistinct(1, 40, 40)
-    val leftGuesses = options.filter { !guessed.contains(it) }
+    val leftGuesses = options.filter { !guessed.contains(it) && !incorrectGuesses.contains(it) }
 
 //    println("pickNextGuess options:     ${options.count()}")
 //    println("pickNextGuess guessed:     ${guessed.count()}")
