@@ -32,9 +32,12 @@ fun main() {
     val tries = IntArray(tests) { findLotto(pickNDistinct(1, 40, 7).toList()).first }
     val highest: Int = tries.maxOf { i: Int -> i }
     val lowest: Int = tries.minOf { i: Int -> i }
+    val average: Int = tries.sum() / tries.count()
 
-    println("findLotto function best step count after $tests tests: $lowest")
-    println("findLotto function worst step count after $tests tests: $highest")
+    println("Tests:     $tests")
+    println("Best:      $lowest")
+    println("Worst:     $highest")
+    println("Average:   $average")
 }
 
 
@@ -322,7 +325,7 @@ fun playLotto(verbose: Boolean = false) {
 
     val result = findLotto(generatedSecret.toList())
 
-    println("computer guess in ${result.first} steps is [${result.second.joinToString(", ")}]")
+    println("computer guessed in ${result.first} steps is [${result.second.joinToString(", ")}]")
 }
 
 fun askForPlayAgain(message: String = "Do you want to play again? y/n "): Boolean {
