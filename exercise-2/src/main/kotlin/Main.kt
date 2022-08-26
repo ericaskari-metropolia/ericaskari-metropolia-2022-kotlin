@@ -21,19 +21,20 @@ More? (Y/N): N
 */
 
 fun main() {
-    //  Generating Secret Lottery numbers
-    val secretLotto = pickNDistinct(1, 40, 7).toList()
+    do {
+        playLotto()
+    } while (askForPlayAgain())
 
-    //  Finding Lottery numbers and saving into array for performance comparison
-    val tries = IntArray(100000){ findLotto(pickNDistinct(1, 40, 7).toList())}
+    println("Running a performance test on findLotto function...")
 
+    // A performance check
+    val tests = 100000
+    val tries = IntArray(tests) { findLotto(pickNDistinct(1, 40, 7).toList()).first }
     val highest: Int = tries.maxOf { i: Int -> i }
     val lowest: Int = tries.minOf { i: Int -> i }
 
-    println("highest:      $highest")
-    println("lowest:       $lowest")
-
-//    playLotto()
+    println("findLotto function best step count after $tests tests: $lowest")
+    println("findLotto function worst step count after $tests tests: $highest")
 }
 
 
@@ -45,7 +46,7 @@ either directly or indirectly.
 Return the number of steps taken to find the correct lotto
 numbers as well as the list of correct numbers as a Pair.
 */
-fun findLotto(secretLotto: List<Int>, verbose: Boolean = false): Int {
+fun findLotto(secretLotto: List<Int>, verbose: Boolean = false): Pair<Int, Set<Int>> {
     // total of times, it checked for correct numbers.
     var tryCount = 0
 
@@ -122,7 +123,7 @@ fun findLotto(secretLotto: List<Int>, verbose: Boolean = false): Int {
     val unknownLotto = startingLotto.subList(8, 40).toCollection(mutableListOf()).filter { !correctList.contains(it) }
 
     //  Looping the list of unknown numbers which holds 1-40 shuffled numbers.
-    for (i in 1 until unknownLotto.count() ) {
+    for (i in 1 until unknownLotto.count()) {
 
         //  Creating sublist of 1 unknown number which will loop through the list.
         val testLotto = unknownLotto.subList(i, i + 1).toCollection(mutableListOf())
@@ -146,8 +147,8 @@ fun findLotto(secretLotto: List<Int>, verbose: Boolean = false): Int {
     }
 
     debug("tryCount:\n$tryCount\n--------")
-    return tryCount
 
+    return Pair(tryCount, correctList)
 }
 
 fun lottoResult(guess: List<Int>, lotto: List<Int>) =
@@ -246,7 +247,7 @@ Hints: use readLine(), .split(), check .toIntOrNull(), .filterNotNull() and .all
 */
 fun readNDistinct(low: Int, high: Int, distinctCount: Int): List<Int> {
     do {
-        println("Please enter $distinctCount distinct numbers seperated by comma between $low and $high. : ")
+        print("Please enter $distinctCount distinct numbers seperated by comma between $low and $high : ")
 
         val input: String = readLine() ?: ""
 
@@ -295,33 +296,33 @@ Write function playLotto() that
 - lets user either continue with another round or end
 - call your playLotto implementation from main function
 */
-fun playLotto() {
-    println("Lotto game started!")
+fun playLotto(verbose: Boolean = false) {
     val lowest = 1
     val highest = 40
     val distinctCount = 7
 
-    do {
-        val generatedSecret = pickNDistinct(lowest, highest, distinctCount)
-        println("DEBUG: generatedSecret: ${generatedSecret.joinToString(",")}")
+    fun debug(input: Any) {
+        if (verbose) {
+            println(input)
+        }
+    }
 
-        val guessedSecret = readNDistinct(lowest, highest, distinctCount)
-        println("DEBUG: guessedSecret:   ${guessedSecret.joinToString(",")}")
+    println("Lotto game started!")
 
-        val correctGuesses = numCommon(generatedSecret.toList(), guessedSecret)
-        println("DEBUG: correctGuesses:  $correctGuesses")
+    val generatedSecret = pickNDistinct(lowest, highest, distinctCount)
+    debug("DEBUG: generatedSecret: ${generatedSecret.joinToString(",")}")
 
-        val printLines = "-------------------"
-        println(
-            when (correctGuesses) {
-                7 -> "$printLines\nYOU WON THE LOTTERY, CONGRATULATIONS.\n$printLines"
-                6 -> "$printLines\nOh no. So close. you missed only one number, better luck next time.\n$printLines"
-                else -> "$printLines\nOh no, you missed only ${distinctCount - correctGuesses} number, better luck next time.\n$printLines"
-            }
-        )
-        println("lotto numbers were: [${generatedSecret.joinToString(", ")}]")
+    val guessedSecret = readNDistinct(lowest, highest, distinctCount)
+    debug("DEBUG: guessedSecret:   ${guessedSecret.joinToString(",")}")
 
-    } while (askForPlayAgain())
+    val correctGuesses = numCommon(generatedSecret.toList(), guessedSecret)
+    debug("DEBUG: correctGuesses:  $correctGuesses")
+
+    println("lotto numbers were: [${generatedSecret.joinToString(", ")}]you got $correctGuesses numbers correct.")
+
+    val result = findLotto(generatedSecret.toList())
+
+    println("computer guess in ${result.first} steps is [${result.second.joinToString(", ")}]")
 }
 
 fun askForPlayAgain(message: String = "Do you want to play again? y/n "): Boolean {
