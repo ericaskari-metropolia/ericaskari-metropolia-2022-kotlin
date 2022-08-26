@@ -2,10 +2,30 @@
 // Name:        Mohammad Askari
 // Student id:  2113562
 
+
+/*
+Example runs (here computer guess (next exercise) is implemented also):
+Give numbers separated by commas: 1,,2,3,4,5,6,7
+Give numbers separated by commas: 1,2,3,4,5,6,7,8
+Give numbers separated by commas: ,1,2,3,4,5,6,7
+Give numbers separated by commas: 1,1,2,3,4,5,6
+Give numbers separated by commas: 1,2,3,4,5,6,7
+lotto numbers: [6, 7, 10, 11, 13, 25, 35], you got 2 correct
+computer guess in 30 steps is [6, 7, 10, 11, 13, 25, 35]
+More? (Y/N): Y
+Give numbers separated by commas: 1,2,3,4,5,6,77
+Give numbers separated by commas: 5,2,9,32,17,11,10
+lotto numbers: [3, 6, 10, 12, 20, 36, 40], you got 1 correct
+computer guess in 43 steps is [3, 6, 10, 12, 20, 36, 40]
+More? (Y/N): N
+*/
+
 fun main() {
+    //  Generating Secret Lottery numbers
     val secretLotto = pickNDistinct(1, 40, 7).toList()
 
-    val tries = IntArray(100000){ findLotto(secretLotto)}
+    //  Finding Lottery numbers and saving into array for performance comparison
+    val tries = IntArray(100000){ findLotto(pickNDistinct(1, 40, 7).toList())}
 
     val highest: Int = tries.maxOf { i: Int -> i }
     val lowest: Int = tries.minOf { i: Int -> i }
@@ -16,88 +36,118 @@ fun main() {
 //    playLotto()
 }
 
-fun findLotto(secretLotto: List<Int>): Int {
+
+/*
+Write here code that generates lotto guesses and
+uses only function lottoResult (see below) to check the guesses.
+Do not use the content of variable lotto in any other way
+either directly or indirectly.
+Return the number of steps taken to find the correct lotto
+numbers as well as the list of correct numbers as a Pair.
+*/
+fun findLotto(secretLotto: List<Int>, verbose: Boolean = false): Int {
+    // total of times, it checked for correct numbers.
     var tryCount = 0
 
+    //  Set of founded correct numbers.
+    val correctList = mutableSetOf<Int>()
+
+    fun debug(input: Any) {
+        if (verbose) {
+            println(input)
+        }
+    }
+
+    // just a wrapper to keep count
     fun checkForCorrectNumbers(guess: List<Int>, lotto: List<Int>): Int? {
         tryCount += 1
         return lottoResult(guess, lotto)
     }
 
+    // Finds index in the array which next seven items are incorrect numbers (lottoResult is zero)
     fun findFirstIncorrectSetIndex(distinctList: List<Int>): Int? {
-        //  T|T|T|T|T|T|T|X|X|X|X|X...
-        //  X|T|T|T|T|T|T|T|X|X|X|X...
-        //  X|X|T|T|T|T|T|T|T|X|X|X...
+        var lastLoopResult: Int? = null
         for (i in 0 until distinctList.count() - 7) {
             val testLotto = distinctList.subList(i, i + 7).toCollection(mutableListOf())
             val res = checkForCorrectNumbers(testLotto, secretLotto)
+
+            if (lastLoopResult != null && lastLoopResult == 1 && res == 0) {
+                correctList.add(distinctList[i - 1])
+            }
+
             if (res == 0) {
                 return i
             }
+            lastLoopResult = res
         }
         return null
     }
 
+    // Starting array 1-40 shuffled.
     var startingLotto: MutableList<Int>
+    // Index if first 7 incorrect numbers
     var firstIncorrectSetIndex: Int?
+
     do {
         startingLotto = pickNDistinct(1, 40, 40).toMutableList()
         firstIncorrectSetIndex = findFirstIncorrectSetIndex(startingLotto)
+        //  Since it's possible that correct numbers are placed everywhere, we can shuffle the array
+        //  And keep looking.
     } while (firstIncorrectSetIndex == null)
 
-    println("secretLotto:   \n${secretLotto.joinToString("|")}")
-    println("startingLotto: \n${startingLotto.joinToString("|")}")
+    //  Debugging
+    debug("secretLotto:   \n${secretLotto.joinToString("|")}")
+    //  Debugging
+    debug("startingLotto: \n${startingLotto.joinToString("|")}")
 
-
+    // Cloning 7 incorrect numbers as a list.
     val startingSet =
         startingLotto.subList(firstIncorrectSetIndex, firstIncorrectSetIndex + 7).toCollection(mutableListOf())
 
+    // Removing these 7 incorrect numbers from the main list.
     startingLotto.subList(firstIncorrectSetIndex, firstIncorrectSetIndex + 7).clear()
 
-    println("zeroSetLotto:\n${startingSet.joinToString("|")}")
+    debug("zeroSetLotto:\n${startingSet.joinToString("|")}")
+
+    // Adding these 7 incorrect numbers to the beginning of the main list.
     startingLotto.addAll(0, startingSet)
-    println("sortedStartingLotto:\n${startingLotto.joinToString("|")}")
 
-    val correctList = mutableListOf<Int>()
+    debug("sortedStartingLotto:\n${startingLotto.joinToString("|")}")
 
-    for (i in 1 until startingLotto.count() - 6) {
-        val falseLotto = startingLotto.subList(0, 6).toCollection(mutableListOf())
-        val testLotto = startingLotto.subList(i + 6, i + 7).toCollection(mutableListOf())
+
+    //  Creating cloned sublist of 6 incorrect numbers
+    val falseLotto = startingLotto.subList(0, 6).toCollection(mutableListOf())
+
+    //  Creating cloned sublist of unknown numbers (index of seven is also incorrect.)
+    val unknownLotto = startingLotto.subList(8, 40).toCollection(mutableListOf()).filter { !correctList.contains(it) }
+
+    //  Looping the list of unknown numbers which holds 1-40 shuffled numbers.
+    for (i in 1 until unknownLotto.count() ) {
+
+        //  Creating sublist of 1 unknown number which will loop through the list.
+        val testLotto = unknownLotto.subList(i, i + 1).toCollection(mutableListOf())
+
+        //  Mixing 6 incorrect numbers and one unknown number and Checking for correct number count.
         val res = checkForCorrectNumbers(falseLotto + testLotto, secretLotto) ?: throw Exception("Bad subList")
 
+        //  If result is "1" then 7th number is a correct number.
         if (res == 1) {
             correctList.add(testLotto.last())
+        }
+
+        //  And if we have all the numbers then there is no need to loop till the end.
+        if (correctList.count() == 7) {
+            break
         }
     }
 
     if (correctList.count() == 7) {
-        println("Lottery founded:\n${correctList.joinToString("|")}")
+        debug("Lottery founded:\n${correctList.joinToString("|")}")
     }
 
-    println("tryCount:\n$tryCount\n--------")
+    debug("tryCount:\n$tryCount\n--------")
     return tryCount
 
-}
-
-    /*
-    Write here code that generates lotto guesses and
-    uses only function lottoResult (see below) to check the guesses.
-    Do not use the content of variable lotto in any other way
-    either directly or indirectly.
-    Return the number of steps taken to find the correct lotto
-    numbers as well as the list of correct numbers as a Pair.
-    */
-    //    return Pair(0, listOf()) // comment this out when implementing the function
-
-fun pickNextGuess(guessed: Set<Int>, incorrectGuesses: Set<Int>): Int? {
-    val options = pickNDistinct(1, 40, 40)
-    val leftGuesses = options.filter { !guessed.contains(it) && !incorrectGuesses.contains(it) }
-
-//    println("pickNextGuess options:     ${options.count()}")
-//    println("pickNextGuess guessed:     ${guessed.count()}")
-//    println("pickNextGuess leftGuesses: ${leftGuesses.count()}")
-
-    return if (leftGuesses.isNotEmpty()) leftGuesses.random() else null
 }
 
 fun lottoResult(guess: List<Int>, lotto: List<Int>) =
@@ -282,19 +332,3 @@ fun askForPlayAgain(message: String = "Do you want to play again? y/n "): Boolea
     return input == "y"
 }
 
-/*
-Example runs (here computer guess (next exercise) is implemented also):
-Give numbers separated by commas: 1,,2,3,4,5,6,7
-Give numbers separated by commas: 1,2,3,4,5,6,7,8
-Give numbers separated by commas: ,1,2,3,4,5,6,7
-Give numbers separated by commas: 1,1,2,3,4,5,6
-Give numbers separated by commas: 1,2,3,4,5,6,7
-lotto numbers: [6, 7, 10, 11, 13, 25, 35], you got 2 correct
-computer guess in 30 steps is [6, 7, 10, 11, 13, 25, 35]
-More? (Y/N): Y
-Give numbers separated by commas: 1,2,3,4,5,6,77
-Give numbers separated by commas: 5,2,9,32,17,11,10
-lotto numbers: [3, 6, 10, 12, 20, 36, 40], you got 1 correct
-computer guess in 43 steps is [3, 6, 10, 12, 20, 36, 40]
-More? (Y/N): N
-*/
