@@ -4,147 +4,80 @@
 
 fun main() {
     val secretLotto = pickNDistinct(1, 40, 7).toList()
-    println("DEBUG: secretLotto:   ${secretLotto.joinToString(" | ")}")
 
-    findLotto(secretLotto, false)
+    val tries = IntArray(100000){ findLotto(secretLotto)}
+
+    val highest: Int = tries.maxOf { i: Int -> i }
+    val lowest: Int = tries.minOf { i: Int -> i }
+
+    println("highest:      $highest")
+    println("lowest:       $lowest")
 
 //    playLotto()
 }
 
-fun findLotto(lotto: List<Int>, verbose: Boolean = true): Pair<Int, List<Int>> {
-    //  7 Distinct number
-    //  Each can be between 1 and 40
+fun findLotto(secretLotto: List<Int>): Int {
+    var tryCount = 0
 
-    //  Have to generate guesses to see if they match lotto
-    val startingGuess = pickNDistinct(1, 40, 7).toList()
-
-    // Indexes can be between 0-6 and values can be between 1-40
-    val guesses: List<MutableList<Int>> = listOf(
-        mutableListOf<Int>(startingGuess[0]),
-        mutableListOf<Int>(startingGuess[1]),
-        mutableListOf<Int>(startingGuess[2]),
-        mutableListOf<Int>(startingGuess[3]),
-        mutableListOf<Int>(startingGuess[4]),
-        mutableListOf<Int>(startingGuess[5]),
-        mutableListOf<Int>(startingGuess[6])
-    )
-
-    val correctGuessIndexes = mutableListOf<Int?>(
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-    )
-
-    fun getAllGuessedNumbers(): List<Int> {
-        return guesses.reduce { acc: List<Int>, ints: List<Int> -> acc + ints }
+    fun checkForCorrectNumbers(guess: List<Int>, lotto: List<Int>): Int? {
+        tryCount += 1
+        return lottoResult(guess, lotto)
     }
 
-    fun getLottoGuessSample(): List<Int> {
-        return correctGuessIndexes.mapIndexed { index: Int, i: Int? -> if (i == null) guesses[index].last() else guesses[index][i] }
-    }
-
-    fun correctLottoNumberCount(): Int {
-        return lottoResult(getLottoGuessSample(), lotto) ?: throw Exception("Should not be possible.")
-    }
-
-    fun log(data: Any) {
-        if (verbose) {
-            println(data)
-        }
-    }
-
-    fun printGuessTable() {
-        guesses.forEachIndexed { index, guess ->
-            val correctGuessIndex = correctGuessIndexes[index]
-            val value: Int? = if (correctGuessIndex != null) guess[correctGuessIndex] else null
-            val printLabel = if (value != null) if (value >= 10) value else " $value" else "  "
-            val list = guess.map { if (it >= 10) it else " $it" }.joinToString(" | ")
-
-            log(
-                "Col $index [$printLabel]:   $list"
-            )
-        }
-    }
-
-    //  Amount of guesses.
-    var guessCount = 1
-
-    log("getLottoGuessSample: ${getLottoGuessSample().joinToString(" ")}")
-    var correctGuesses = correctLottoNumberCount()
-
-    var indexToFindValueFor = 0
-    val incorrectGuesses = mutableSetOf<Int>()
-
-    while (correctGuesses != 7) {
-
-        //  Next possible option by considering other values and also guessed values.
-
-        val guessedNumber: Int = pickNextGuess(getAllGuessedNumbers().toSet(), incorrectGuesses)
-            ?: throw Exception("Should not be possible to have guessed all the numbers.")
-
-        val correctGuessesBeforeAdding = correctLottoNumberCount()
-        guesses[indexToFindValueFor].add(guessedNumber)
-        val correctGuessesAfterAdding = correctLottoNumberCount()
-
-        log("indexToFindValueFor:        $indexToFindValueFor")
-        log("correctGuessesBeforeAdding: $correctGuessesBeforeAdding")
-        log("correctGuessesAfterAdding:  $correctGuessesAfterAdding")
-        log("guessedNumber:              $guessedNumber")
-
-        printGuessTable()
-
-        val isPreviousGuessCorrect = correctGuessesAfterAdding < correctGuessesBeforeAdding
-        val isCurrentGuessCorrect = correctGuessesAfterAdding > correctGuessesBeforeAdding
-
-        //  Previous guessed value was correct one.
-        if (isPreviousGuessCorrect) {
-            log("Value at column with index of $indexToFindValueFor was already correct.")
-            // Last element
-
-            correctGuessIndexes[indexToFindValueFor] = guesses[indexToFindValueFor].count() - 2
-            //  We know that last element is incorrect
-            incorrectGuesses.add(guesses[indexToFindValueFor].last())
-
-            indexToFindValueFor += 1
-
-
-        } else if (isCurrentGuessCorrect) {
-            log("Added $guessedNumber to column with index of $indexToFindValueFor")
-            // Last element
-            correctGuessIndexes[indexToFindValueFor] = guesses[indexToFindValueFor].count() - 1
-            // We know that previous value is incorrect.
-            incorrectGuesses.add(guesses[indexToFindValueFor][guesses[indexToFindValueFor].count() - 2])
-
-            //  When loop value is the correct one.
-            indexToFindValueFor += 1
-            correctGuesses = correctGuessesAfterAdding
-        } else {
-            //  Let's remove the added value and move on. Because it can be so that two correct value happen to be next
-            //  to each other
-            //  If previous value was incorrect then it means that this is also incorrect.
-            if (!incorrectGuesses.contains(guesses[indexToFindValueFor][guesses[indexToFindValueFor].count() - 2])) {
-                guesses[indexToFindValueFor].removeLast()
-                indexToFindValueFor += 1
+    fun findFirstIncorrectSetIndex(distinctList: List<Int>): Int? {
+        //  T|T|T|T|T|T|T|X|X|X|X|X...
+        //  X|T|T|T|T|T|T|T|X|X|X|X...
+        //  X|X|T|T|T|T|T|T|T|X|X|X...
+        for (i in 0 until distinctList.count() - 7) {
+            val testLotto = distinctList.subList(i, i + 7).toCollection(mutableListOf())
+            val res = checkForCorrectNumbers(testLotto, secretLotto)
+            if (res == 0) {
+                return i
             }
         }
-
-        guessCount = guessCount.inc()
-
-
-        if (indexToFindValueFor >= guesses.count()) {
-            indexToFindValueFor = 0
-        }
-
-        log("\n------------\n")
+        return null
     }
 
-    log("DEBUG: secretLotto:   ${lotto.joinToString(" | ")}")
-    printGuessTable()
-    println("guessCount:            $guessCount")
+    var startingLotto: MutableList<Int>
+    var firstIncorrectSetIndex: Int?
+    do {
+        startingLotto = pickNDistinct(1, 40, 40).toMutableList()
+        firstIncorrectSetIndex = findFirstIncorrectSetIndex(startingLotto)
+    } while (firstIncorrectSetIndex == null)
+
+    println("secretLotto:   \n${secretLotto.joinToString("|")}")
+    println("startingLotto: \n${startingLotto.joinToString("|")}")
+
+
+    val startingSet =
+        startingLotto.subList(firstIncorrectSetIndex, firstIncorrectSetIndex + 7).toCollection(mutableListOf())
+
+    startingLotto.subList(firstIncorrectSetIndex, firstIncorrectSetIndex + 7).clear()
+
+    println("zeroSetLotto:\n${startingSet.joinToString("|")}")
+    startingLotto.addAll(0, startingSet)
+    println("sortedStartingLotto:\n${startingLotto.joinToString("|")}")
+
+    val correctList = mutableListOf<Int>()
+
+    for (i in 1 until startingLotto.count() - 6) {
+        val falseLotto = startingLotto.subList(0, 6).toCollection(mutableListOf())
+        val testLotto = startingLotto.subList(i + 6, i + 7).toCollection(mutableListOf())
+        val res = checkForCorrectNumbers(falseLotto + testLotto, secretLotto) ?: throw Exception("Bad subList")
+
+        if (res == 1) {
+            correctList.add(testLotto.last())
+        }
+    }
+
+    if (correctList.count() == 7) {
+        println("Lottery founded:\n${correctList.joinToString("|")}")
+    }
+
+    println("tryCount:\n$tryCount\n--------")
+    return tryCount
+
+}
 
     /*
     Write here code that generates lotto guesses and
@@ -154,8 +87,7 @@ fun findLotto(lotto: List<Int>, verbose: Boolean = true): Pair<Int, List<Int>> {
     Return the number of steps taken to find the correct lotto
     numbers as well as the list of correct numbers as a Pair.
     */
-    return Pair(0, listOf()) // comment this out when implementing the function
-}
+    //    return Pair(0, listOf()) // comment this out when implementing the function
 
 fun pickNextGuess(guessed: Set<Int>, incorrectGuesses: Set<Int>): Int? {
     val options = pickNDistinct(1, 40, 40)
@@ -207,7 +139,7 @@ println(pickNDistinct(1,40,7)) // for example [3, 6, 11, 17, 19, 21, 34]
 println(pickNDistinct(1,6,3)) // for example [1, 3, 6]
 println(pickNDistinct(1,6,6)) // [1, 2, 3, 4, 5, 6]
 */
-fun pickNDistinct(low: Int, high: Int, distinctCount: Int): Set<Int> {
+fun pickNDistinct(low: Int, high: Int, distinctCount: Int, shuffle: Boolean = true): Set<Int> {
     val includeHighest: Boolean = true
 
     if (high <= low) {
@@ -221,7 +153,9 @@ fun pickNDistinct(low: Int, high: Int, distinctCount: Int): Set<Int> {
         throw IllegalArgumentException("Cannot find $distinctCount distinct numbers in $optionsSize options")
     }
 
-    optionsArray.shuffle()
+    if (shuffle) {
+        optionsArray.shuffle()
+    }
 
     return optionsArray.slice(0 until distinctCount).toSet()
 }
