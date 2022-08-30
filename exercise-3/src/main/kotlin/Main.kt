@@ -41,9 +41,12 @@ coffeemaker is off with 0 coffee and 0 water
 coffeemaker is off with 0 coffee and 0 water
 coffeemaker is on with 0 coffee and 0 water
 coffeemaker is on with 0 coffee and 0 water
-coffeemaker is on with 50 coffee and 150 water made coffee with 10 - 120
-coffeemaker is on with 40 coffee and 30 water made coffee with 16 - 30
-coffeemaker is on with 24 coffee and 0 water coffeemaker is on with 24 coffee and 0 water
+coffeemaker is on with 50 coffee and 150 water
+made coffee with 10 - 120
+coffeemaker is on with 40 coffee and 30 water
+made coffee with 16 - 30
+coffeemaker is on with 24 coffee and 0 water
+coffeemaker is on with 24 coffee and 0 water
 */
 
 fun main() {
@@ -70,30 +73,21 @@ class CoffeeMaker {
     private val waterCapacity: Int
 
     var isOn = false
-        get() {
-            return field
-        }
-        public set(value: Boolean) {
+        set(value) {
             if (value != field) {
                 field = value
             }
         }
 
     var coffeeAmount = 0
-        get() {
-            return field
-        }
-        private set(value: Int) {
+        private set(value) {
             if (value >= 0) {
                 field = value
             }
         }
 
     var waterAmount = 0
-        get() {
-            return field
-        }
-        private set(value: Int) {
+        private set(value) {
             if (value >= 0) {
                 field = value
             }
@@ -105,8 +99,8 @@ class CoffeeMaker {
     }
 
     constructor(coffeeCapacity: Int, waterCapacity: Int) {
-        this.coffeeCapacity = coffeeCapacity
-        this.waterCapacity = waterCapacity
+        this.coffeeCapacity = if (coffeeCapacity > 0) coffeeCapacity else 0
+        this.waterCapacity = if (waterCapacity > 0) waterCapacity else 0
     }
 
     fun fillAll() {
@@ -136,7 +130,7 @@ class CoffeeMaker {
         return true
     }
 
-    public override fun toString(): String {
+    override fun toString(): String {
         return "coffeemaker is ${if (this.isOn) "on" else "off"} with ${this.coffeeAmount} coffee and ${this.waterAmount} water"
     }
 }
