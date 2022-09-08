@@ -2,6 +2,10 @@ package com.example.exercise_4.models
 
 class Parliament(val members: List<ParliamentMember>) {
     // return all parties represented in parliament sorted by their name
+    fun ministers(): List<ParliamentMember> {
+        return members.filter { it.minister }.toSet().toList()
+    }
+
     fun parties(): List<String> {
         return members.map { it.party }.toSet().toList().sorted()
     }
