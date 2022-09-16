@@ -10,27 +10,25 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.exercise_5.R
 import com.example.exercise_5.databinding.ParliamentMemberListItemBinding
+import com.example.exercise_5.datasource.ParliamentMembersData
+import com.example.exercise_5.models.Parliament
 import com.example.exercise_5.models.ParliamentMember
 
-class ParliamentMemberDetailsFragment() : Fragment(R.layout.parliament_member_details) {
-    private var member: ParliamentMember? = null
+class ParliamentMemberListItemFragment() : Fragment() {
+    private lateinit var binding: ParliamentMemberListItemBinding
 
-    constructor(member: ParliamentMember) : this() {
-        this.member = member
-    }
+    private var members: List<ParliamentMember> = Parliament(ParliamentMembersData.members).members
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding: ParliamentMemberListItemBinding = ParliamentMemberListItemBinding.inflate(inflater, container, false)
-        binding.member = this.member
-
+        binding = ParliamentMemberListItemBinding.inflate(inflater, container, false)
+        binding.member = members[0]
         return binding.root;
-
     }
 
     companion object {
         @JvmStatic
-        @BindingAdapter("loadImage")
-        fun loadImage(view: ImageView, profileImage: String) {
+        @BindingAdapter("loadListItemImage")
+        fun loadListItemImage(view: ImageView, profileImage: String) {
             Glide.with(view.context)
                 .load("https://avoindata.eduskunta.fi/$profileImage")
                 .override(300, 300)
@@ -42,5 +40,4 @@ class ParliamentMemberDetailsFragment() : Fragment(R.layout.parliament_member_de
                 .into(view)
         }
     }
-
 }

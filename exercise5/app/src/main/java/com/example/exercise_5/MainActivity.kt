@@ -2,6 +2,7 @@ package com.example.exercise_5
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -9,7 +10,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.exercise_5.databinding.ActivityMainBinding
 
 
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
@@ -19,23 +20,18 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        appBarConfiguration = AppBarConfiguration(findNavController(R.id.nav_host_fragment_content_main).graph)
-//        setupActionBarWithNavController(navController, appBarConfiguration)
+        setSupportActionBar(binding.toolbar)
 
-//        supportFragmentManager.beginTransaction()
-//            .add(binding.navHostFragment.id, ParliamentMemberListFragment())
-//            .commit()
+        appBarConfiguration = AppBarConfiguration(navController().graph)
+        setupActionBarWithNavController(navController(), appBarConfiguration)
+    }
+
+    private fun navController(): NavController {
+        return findNavController(R.id.nav_host_fragment_content_main)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return findNavController(R.id.nav_host_fragment_content_main).navigateUp(appBarConfiguration)
+        return navController().navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
-
-//    override fun onItemClick(v: View?, index: Number) {
-////        supportFragmentManager.beginTransaction()
-////            .replace(binding.navHostFragment.id, ParliamentMemberDetailsFragment())
-////            .commit()
-//    }
-
 }
