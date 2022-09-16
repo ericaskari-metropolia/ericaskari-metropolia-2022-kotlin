@@ -1,20 +1,16 @@
 package com.example.exercise_5
 
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.GridLayoutManager
-import com.example.exercise_5.adapters.ParliamentMemberListItemRecycleViewAdapter
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.exercise_5.databinding.ActivityMainBinding
-import com.example.exercise_5.datasource.ParliamentMembersData
-import com.example.exercise_5.interfaces.OnParliamentClickListener
-import com.example.exercise_5.models.Parliament
 
 
-class MainActivity : AppCompatActivity(R.layout.activity_main), OnParliamentClickListener {
-    private val parliament = Parliament(ParliamentMembersData.members)
-
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
+    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,17 +19,23 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), OnParliamentClic
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val adapter = ParliamentMemberListItemRecycleViewAdapter(this, parliament.members)
+//        appBarConfiguration = AppBarConfiguration(findNavController(R.id.nav_host_fragment_content_main).graph)
+//        setupActionBarWithNavController(navController, appBarConfiguration)
 
-        //  Set recycleView adapter
-        this.binding.recycleView.adapter = adapter
-
-        //  Set grid layout with two columns
-        this.binding.recycleView.layoutManager = GridLayoutManager(null, 1)
+//        supportFragmentManager.beginTransaction()
+//            .add(binding.navHostFragment.id, ParliamentMemberListFragment())
+//            .commit()
     }
 
-    override fun onItemClick(v: View?, index: Number) {
-        val item = parliament.members[index.toInt()]
-        Toast.makeText(applicationContext,"Clicked on ${item.fullName()}",Toast.LENGTH_SHORT).show()
+    override fun onSupportNavigateUp(): Boolean {
+        return findNavController(R.id.nav_host_fragment_content_main).navigateUp(appBarConfiguration)
+                || super.onSupportNavigateUp()
     }
+
+//    override fun onItemClick(v: View?, index: Number) {
+////        supportFragmentManager.beginTransaction()
+////            .replace(binding.navHostFragment.id, ParliamentMemberDetailsFragment())
+////            .commit()
+//    }
+
 }

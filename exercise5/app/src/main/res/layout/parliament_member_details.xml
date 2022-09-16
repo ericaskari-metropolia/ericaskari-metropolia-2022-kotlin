@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable name="member" type="com.example.exercise_5.models.ParliamentMember"/>
     </data>
 
@@ -19,7 +18,6 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 app:loadImage="@{member.pictureUrl}"
                 tools:srcCompat="@tools:sample/avatars"

@@ -2,11 +2,11 @@ package com.example.exercise_5.viewholders
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.example.exercise_5.databinding.ParliamentMemberCardItemBinding
+import com.example.exercise_5.databinding.ParliamentMemberListItemBinding
 import com.example.exercise_5.interfaces.OnParliamentClickListener
 import com.example.exercise_5.models.ParliamentMember
 
-class ParliamentListItemRecycleViewHolder(private val binding: ParliamentMemberCardItemBinding) :
+class ParliamentListItemRecycleViewHolder(private val binding: ParliamentMemberListItemBinding) :
     RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
     init {
