@@ -12,7 +12,8 @@ class Parliament(val members: List<ParliamentMember>) {
 
     // return all parties represented in parliament sorted by their number of members
     fun partiesBySize(): List<String> {
-        return parties().map { Pair(it, partyMembers(it).size) }.sortedBy { -it.second }.map { it.first }
+        return parties().map { Pair(it, partyMembers(it).size) }.sortedBy { -it.second }
+            .map { it.first }
     }
 
     // return all members belonging to party sorted alphabetically by lastname, firstname
@@ -31,7 +32,8 @@ class Parliament(val members: List<ParliamentMember>) {
     }
 
     fun govPartiesFromLargestPartytoSmallest(): List<String> {
-        return governmentParties().toList().sortedBy { -toPartyMap().getOrDefault(it, listOf()).size }
+        return governmentParties().toList()
+            .sortedBy { -toPartyMap().getOrDefault(it, listOf()).size }
     }
 
     fun governmentSeats() = members.count { governmentParties().contains(it.party) }

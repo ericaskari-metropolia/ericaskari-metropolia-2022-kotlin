@@ -7,9 +7,11 @@ data class ParliamentMember(
     val firstname: String,
     val party: String,
     val minister: Boolean = false,
-    val pictureUrl: String = "") {
+    val pictureUrl: String = ""
+) {
 
     fun fullName(): String {
         return this.firstname + ' ' + this.lastname
     }
 }
+

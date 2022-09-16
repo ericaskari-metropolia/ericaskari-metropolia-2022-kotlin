@@ -19,7 +19,11 @@ class ParliamentMemberListFragment : Fragment(), OnParliamentClickListener {
 
     private var members: List<ParliamentMember> = Parliament(ParliamentMembersData.members).members
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = ParliamentMemberListBinding.inflate(inflater, container, false)
         return binding.root;
     }
@@ -38,7 +42,8 @@ class ParliamentMemberListFragment : Fragment(), OnParliamentClickListener {
     override fun onItemClick(v: View?, index: Number) {
         // val item = members[index.toInt()]
         // Toast.makeText(requireActivity().applicationContext,"Clicked on ${item.fullName()}", Toast.LENGTH_SHORT).show()
-        val action = ParliamentMemberListFragmentDirections.toParliamentMemberDetailsFragmentAction(index.toInt())
+        val action =
+            ParliamentMemberListFragmentDirections.toParliamentMemberDetailsFragmentAction(index.toInt())
         findNavController().navigate(action)
     }
 

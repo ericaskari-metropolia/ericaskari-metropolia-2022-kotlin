@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/nav_graph"
-            app:startDestination="@id/ParliamentMemberListFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/ParliamentMemberListFragment">
 
     <fragment
-            android:id="@+id/ParliamentMemberListFragment"
-            android:name="com.example.exercise_5.fragments.ParliamentMemberListFragment"
-            android:label="Parliament member list"
-            tools:layout="@layout/parliament_member_list">
+        android:id="@+id/ParliamentMemberListFragment"
+        android:name="com.example.exercise_5.fragments.ParliamentMemberListFragment"
+        android:label="Parliament member list"
+        tools:layout="@layout/parliament_member_list">
 
         <action
             android:id="@+id/to_ParliamentMemberDetailsFragment_action"
@@ -17,16 +17,14 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_enter_anim"
             app:popExitAnim="@anim/nav_default_exit_anim"
-            app:destination="@id/ParliamentMemberDetailsFragment"/>
-
-
+            app:destination="@id/ParliamentMemberDetailsFragment" />
     </fragment>
 
     <fragment
-            android:id="@+id/ParliamentMemberDetailsFragment"
-            android:name="com.example.exercise_5.fragments.ParliamentMemberDetailsFragment"
-            android:label="Parliament member details"
-            tools:layout="@layout/parliament_member_details">
+        android:id="@+id/ParliamentMemberDetailsFragment"
+        android:name="com.example.exercise_5.fragments.ParliamentMemberDetailsFragment"
+        android:label="Parliament member details"
+        tools:layout="@layout/parliament_member_details">
         <argument
             android:name="userId"
             app:argType="integer" />
@@ -37,6 +35,6 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_enter_anim"
             app:popExitAnim="@anim/nav_default_exit_anim"
-            app:destination="@id/ParliamentMemberListFragment"/>
+            app:destination="@id/ParliamentMemberListFragment" />
     </fragment>
 </navigation>

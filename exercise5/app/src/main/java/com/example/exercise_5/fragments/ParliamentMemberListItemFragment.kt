@@ -19,7 +19,11 @@ class ParliamentMemberListItemFragment() : Fragment() {
 
     private var members: List<ParliamentMember> = Parliament(ParliamentMembersData.members).members
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = ParliamentMemberListItemBinding.inflate(inflater, container, false)
         binding.member = members[0]
         return binding.root;
