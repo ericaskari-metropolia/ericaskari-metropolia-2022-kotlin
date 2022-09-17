@@ -1,6 +1,6 @@
 package com.example.exercise_5.datasource
 
-import com.example.exercise_5.models.ParliamentMember
+import com.example.exercise_5.ui.parliamentMember.ParliamentMember
 
 object ParliamentMembersData {
     val members = listOf(

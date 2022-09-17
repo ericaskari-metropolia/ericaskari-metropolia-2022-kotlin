@@ -1,25 +1,27 @@
-package com.example.exercise_5.viewholders
+package com.example.exercise_5.ui.parliamentMember
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.exercise_5.databinding.ParliamentMemberListItemBinding
-import com.example.exercise_5.interfaces.OnParliamentClickListener
-import com.example.exercise_5.models.ParliamentMember
 
-class ParliamentListItemRecycleViewHolder(private val binding: ParliamentMemberListItemBinding) :
+class ParliamentMemberViewHolder(val binding: ParliamentMemberListItemBinding) :
     RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
     init {
         binding.root.setOnClickListener(this)
     }
 
-    lateinit var listener: OnParliamentClickListener
+    lateinit var listener: OnParliamentMemberClickListener
     lateinit var index: Number
 
     /**
      * Here we update UI values.
      */
-    fun setViewHolderData(member: ParliamentMember, listener: OnParliamentClickListener, index: Number) {
+    fun setViewHolderData(
+        member: ParliamentMember,
+        listener: OnParliamentMemberClickListener,
+        index: Number
+    ) {
         //  Set UI
         binding.member = member
 
@@ -30,9 +32,10 @@ class ParliamentListItemRecycleViewHolder(private val binding: ParliamentMemberL
         this.index = index
     }
 
+
     override fun onClick(v: View?) {
         println("ParliamentListItemRecycleViewHolder onClick: " + this.index)
         //  Validation
-        this.listener.onItemClick(v, this.index)
+        this.listener.onParliamentMemberClick(v, this.index)
     }
 }

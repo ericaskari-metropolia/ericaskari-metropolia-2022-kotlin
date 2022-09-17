@@ -1,10 +1,10 @@
-package com.example.exercise_5.models
+package com.example.exercise_5.ui.parliamentMember
 
 data class ParliamentMember(
     val hetekaId: Int,
     val seatNumber: Int = 0,
     val lastname: String,
-    val firstname: String,
+    var firstname: String,
     val party: String,
     val minister: Boolean = false,
     val pictureUrl: String = ""

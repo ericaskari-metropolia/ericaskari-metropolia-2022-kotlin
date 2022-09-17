@@ -1,4 +1,6 @@
-package com.example.exercise_5.models
+package com.example.exercise_5.datasource
+
+import com.example.exercise_5.ui.parliamentMember.ParliamentMember
 
 class Parliament(val members: List<ParliamentMember>) {
     // return all parties represented in parliament sorted by their name

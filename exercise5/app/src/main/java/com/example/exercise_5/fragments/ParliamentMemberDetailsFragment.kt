@@ -12,8 +12,8 @@ import com.bumptech.glide.Glide
 import com.example.exercise_5.R
 import com.example.exercise_5.databinding.ParliamentMemberDetailsBinding
 import com.example.exercise_5.datasource.ParliamentMembersData
-import com.example.exercise_5.models.Parliament
-import com.example.exercise_5.models.ParliamentMember
+import com.example.exercise_5.datasource.Parliament
+import com.example.exercise_5.ui.parliamentMember.ParliamentMember
 
 class ParliamentMemberDetailsFragment : Fragment() {
     lateinit var binding: ParliamentMemberDetailsBinding

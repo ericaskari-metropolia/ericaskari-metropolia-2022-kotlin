@@ -5,19 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
-import com.example.exercise_5.adapters.ParliamentMemberListRecycleViewAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.exercise_5.utilities.InjectorUtils
+import com.example.exercise_5.adapters.ParliamentMembersAdapter
 import com.example.exercise_5.databinding.ParliamentMemberListBinding
 import com.example.exercise_5.datasource.ParliamentMembersData
-import com.example.exercise_5.interfaces.OnParliamentClickListener
-import com.example.exercise_5.models.Parliament
-import com.example.exercise_5.models.ParliamentMember
+import com.example.exercise_5.ui.parliamentMember.OnParliamentMemberClickListener
+import com.example.exercise_5.ui.parliamentMember.ParliamentMembersViewModel
 
-class ParliamentMemberListFragment : Fragment(), OnParliamentClickListener {
+class ParliamentMemberListFragment : Fragment(), OnParliamentMemberClickListener {
     private lateinit var binding: ParliamentMemberListBinding
-
-    private var members: List<ParliamentMember> = Parliament(ParliamentMembersData.members).members
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,23 +30,27 @@ class ParliamentMemberListFragment : Fragment(), OnParliamentClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = ParliamentMemberListRecycleViewAdapter(this, members)
+        viewModel().getParliamentMembers().observe(viewLifecycleOwner) { members ->
+            this.binding.listRecycleView.layoutManager = LinearLayoutManager(requireContext())
+            this.binding.listRecycleView.setHasFixedSize(true)
+            this.binding.listRecycleView.adapter = ParliamentMembersAdapter(members, this)
+        }
 
-        //  Set recycleView adapter
-        this.binding.listRecycleView.adapter = adapter
-        //  Set grid layout with one columns
-        this.binding.listRecycleView.layoutManager = GridLayoutManager(null, 1)
+        ParliamentMembersData.members.forEach {
+            viewModel().addParliamentMember(it)
+        }
     }
 
-    override fun onItemClick(v: View?, index: Number) {
-        // val item = members[index.toInt()]
-        // Toast.makeText(requireActivity().applicationContext,"Clicked on ${item.fullName()}", Toast.LENGTH_SHORT).show()
+    override fun onParliamentMemberClick(v: View?, index: Number) {
         val action =
             ParliamentMemberListFragmentDirections.toParliamentMemberDetailsFragmentAction(index.toInt())
         findNavController().navigate(action)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    private fun viewModel(): ParliamentMembersViewModel {
+        val factory = InjectorUtils.provideParliamentMembersViewModelFactory()
+        // Get a reference to the ViewModel scoped to this Fragment
+        val viewModel: ParliamentMembersViewModel by viewModels { factory }
+        return viewModel
     }
 }
