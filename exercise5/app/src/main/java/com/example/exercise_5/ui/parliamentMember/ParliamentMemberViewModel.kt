@@ -8,7 +8,7 @@ import com.example.exercise_5.network.ParliamentApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ParliamentMembersViewModel(private val repository: ParliamentMemberRepository) : ViewModel() {
+class ParliamentMemberViewModel(private val repository: ParliamentMemberRepository) : ViewModel() {
 
     val getAll: LiveData<List<ParliamentMember>> = repository.getAll()
 
@@ -20,7 +20,7 @@ class ParliamentMembersViewModel(private val repository: ParliamentMemberReposit
         repository.deleteMultiple(hetekaIds)
     }
 
-    fun populateParliamentMembers() {
+    fun populate() {
         viewModelScope.launch {
             try {
                 val fetchedMembers: List<ParliamentMember> = ParliamentApi.parliamentApiService.getParliamentMembers()
@@ -37,9 +37,9 @@ class ParliamentMembersViewModel(private val repository: ParliamentMemberReposit
 
 class ParliamentMembersViewModelFactory(private val repository: ParliamentMemberRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ParliamentMembersViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(ParliamentMemberViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return ParliamentMembersViewModel(repository) as T
+            return ParliamentMemberViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

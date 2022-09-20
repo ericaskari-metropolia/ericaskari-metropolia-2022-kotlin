@@ -1,6 +1,7 @@
 package com.example.exercise_5.network
 
 import com.example.exercise_5.ui.parliamentMember.ParliamentMember
+import com.example.exercise_5.ui.parliamentMemberInfo.ParliamentMemberInfo
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
@@ -21,6 +22,9 @@ private val retrofit = Retrofit.Builder()
 interface ParliamentApiService {
     @GET("seating.json")
     suspend fun getParliamentMembers(): List<ParliamentMember>
+
+    @GET("extras.json")
+    suspend fun getParliamentMemberInfos(): List<ParliamentMemberInfo>
 }
 
 object ParliamentApi {

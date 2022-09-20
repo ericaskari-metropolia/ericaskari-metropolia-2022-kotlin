@@ -13,8 +13,10 @@ import com.bumptech.glide.Glide
 import com.example.exercise_5.R
 import com.example.exercise_5.application.ExerciseApplication
 import com.example.exercise_5.databinding.ParliamentMemberDetailsBinding
-import com.example.exercise_5.ui.parliamentMember.ParliamentMembersViewModel
+import com.example.exercise_5.ui.parliamentMember.ParliamentMemberViewModel
 import com.example.exercise_5.ui.parliamentMember.ParliamentMembersViewModelFactory
+import com.example.exercise_5.ui.parliamentMemberInfo.ParliamentMemberInfoViewModel
+import com.example.exercise_5.ui.parliamentMemberInfo.ParliamentMemberInfoViewModelFactory
 
 class ParliamentMemberDetailsFragment : Fragment() {
     lateinit var binding: ParliamentMemberDetailsBinding
@@ -34,13 +36,21 @@ class ParliamentMemberDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel().getAll.observe(viewLifecycleOwner) { members ->
+        parliamentMemberViewModel().getAll.observe(viewLifecycleOwner) { members ->
             binding.member = members[args.userId]
+        }
+        parliamentMemberInfoViewModel().getAll.observe(viewLifecycleOwner) { memberInfos ->
+            binding.memberInfo = memberInfos[args.userId]
         }
     }
 
-    private fun viewModel(): ParliamentMembersViewModel {
-        val viewModel: ParliamentMembersViewModel by viewModels { ParliamentMembersViewModelFactory((requireActivity().application as ExerciseApplication).parliamentMemberRepository) }
+    private fun parliamentMemberViewModel(): ParliamentMemberViewModel {
+        val viewModel: ParliamentMemberViewModel by viewModels { ParliamentMembersViewModelFactory((requireActivity().application as ExerciseApplication).parliamentMemberRepository) }
+        return viewModel
+    }
+
+    private fun parliamentMemberInfoViewModel(): ParliamentMemberInfoViewModel {
+        val viewModel: ParliamentMemberInfoViewModel by viewModels { ParliamentMemberInfoViewModelFactory((requireActivity().application as ExerciseApplication).parliamentMemberInfoRepository) }
         return viewModel
     }
 
