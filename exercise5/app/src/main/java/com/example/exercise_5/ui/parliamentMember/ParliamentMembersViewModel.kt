@@ -12,11 +12,11 @@ class ParliamentMembersViewModel(private val repository: ParliamentMemberReposit
 
     val getAll: LiveData<List<ParliamentMember>> = repository.getAll()
 
-    fun insertAll(members: List<ParliamentMember>) = viewModelScope.launch(Dispatchers.IO) {
+    private fun insertAll(members: List<ParliamentMember>) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(members)
     }
 
-    fun deleteMultiple(hetekaIds: IntArray) = viewModelScope.launch(Dispatchers.IO) {
+    private fun deleteMultiple(hetekaIds: IntArray) = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteMultiple(hetekaIds)
     }
 

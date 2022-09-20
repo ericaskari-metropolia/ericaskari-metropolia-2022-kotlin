@@ -1,4 +1,4 @@
-package com.example.exercise_5.data
+package com.example.exercise_5.datasource
 
 import android.content.Context
 import androidx.room.Database
@@ -23,7 +23,7 @@ abstract class AppDatabase : RoomDatabase() {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "exercise-5-db")
                     .fallbackToDestructiveMigration()           // Wipes and rebuilds instead of migrating if no Migration object.
-                    .addCallback(AppDatabaseCallback(scope))   // Migration is not part of this codelab.
+                    .addCallback(AppDatabaseCallback(scope))    // Migration is not part of this codelab.
                     .build()
                 INSTANCE = instance
 
@@ -52,9 +52,7 @@ abstract class AppDatabase : RoomDatabase() {
 
     @Suppress("RedundantSuspendModifier")
     suspend fun populateDatabase(parliamentMemberDao: ParliamentMemberDao) {
-        println("populateDatabase")
-        parliamentMemberDao.deleteAll()
-//        parliamentMemberDao.insertAll(*ParliamentMembersData.members.toTypedArray())
+        println("one time populating the database")
     }
 
 }

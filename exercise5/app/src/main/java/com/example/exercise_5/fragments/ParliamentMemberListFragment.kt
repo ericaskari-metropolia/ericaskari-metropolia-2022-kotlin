@@ -9,8 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.exercise_5.adapters.ParliamentMembersAdapter
-import com.example.exercise_5.data.AppDatabase
-import com.example.exercise_5.data.ExerciseApplication
+import com.example.exercise_5.application.ExerciseApplication
 import com.example.exercise_5.databinding.ParliamentMemberListBinding
 import com.example.exercise_5.ui.parliamentMember.OnParliamentMemberClickListener
 import com.example.exercise_5.ui.parliamentMember.ParliamentMembersViewModel

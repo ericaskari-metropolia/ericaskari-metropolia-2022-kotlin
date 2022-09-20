@@ -9,11 +9,9 @@ import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.exercise_5.R
-import com.example.exercise_5.adapters.ParliamentMembersAdapter
-import com.example.exercise_5.data.ExerciseApplication
+import com.example.exercise_5.application.ExerciseApplication
 import com.example.exercise_5.databinding.ParliamentMemberDetailsBinding
 import com.example.exercise_5.ui.parliamentMember.ParliamentMembersViewModel
 import com.example.exercise_5.ui.parliamentMember.ParliamentMembersViewModelFactory

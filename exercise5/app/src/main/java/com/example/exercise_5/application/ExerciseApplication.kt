@@ -1,6 +1,7 @@
-package com.example.exercise_5.data
+package com.example.exercise_5.application
 
 import android.app.Application
+import com.example.exercise_5.datasource.AppDatabase
 import com.example.exercise_5.ui.parliamentMember.ParliamentMemberRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
