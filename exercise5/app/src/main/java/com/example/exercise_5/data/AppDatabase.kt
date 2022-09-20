@@ -5,7 +5,6 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.exercise_5.datasource.ParliamentMembersData
 import com.example.exercise_5.ui.parliamentMember.ParliamentMember
 import com.example.exercise_5.ui.parliamentMember.ParliamentMemberDao
 import kotlinx.coroutines.CoroutineScope
@@ -39,6 +38,7 @@ abstract class AppDatabase : RoomDatabase() {
          * Override the onCreate method to populate the database.
          */
         override fun onCreate(db: SupportSQLiteDatabase) {
+            println("AppDatabaseCallback onCreate")
             super.onCreate(db)
             // If you want to keep the data through app restarts,
             // comment out the following line.
@@ -52,8 +52,9 @@ abstract class AppDatabase : RoomDatabase() {
 
     @Suppress("RedundantSuspendModifier")
     suspend fun populateDatabase(parliamentMemberDao: ParliamentMemberDao) {
+        println("populateDatabase")
         parliamentMemberDao.deleteAll()
-        parliamentMemberDao.insertAll(*ParliamentMembersData.members.toTypedArray())
+//        parliamentMemberDao.insertAll(*ParliamentMembersData.members.toTypedArray())
     }
 
 }

@@ -10,6 +10,8 @@ class ParliamentMemberRepository(private val parliamentMemberDao: ParliamentMemb
 
     fun getAll() = parliamentMemberDao.getAll()
 
+    fun deleteMultiple(hetekaIds: IntArray) = parliamentMemberDao.deleteMultiple(hetekaIds)
+
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insert(members: List<ParliamentMember>) {

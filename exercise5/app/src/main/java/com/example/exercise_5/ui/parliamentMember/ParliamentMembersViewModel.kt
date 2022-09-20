@@ -4,14 +4,34 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.exercise_5.network.ParliamentApi
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ParliamentMembersViewModel(private val repository: ParliamentMemberRepository) : ViewModel() {
 
     val getAll: LiveData<List<ParliamentMember>> = repository.getAll()
 
-    fun insertAll(members: List<ParliamentMember>) = viewModelScope.launch {
+    fun insertAll(members: List<ParliamentMember>) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(members)
+    }
+
+    fun deleteMultiple(hetekaIds: IntArray) = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteMultiple(hetekaIds)
+    }
+
+    fun populateParliamentMembers() {
+        viewModelScope.launch {
+            try {
+                val fetchedMembers: List<ParliamentMember> = ParliamentApi.parliamentApiService.getParliamentMembers()
+                println("fetchedMembers fetched: ${fetchedMembers.count()}")
+                insertAll(fetchedMembers)
+                println("Parliament members have been added.")
+            } catch (e: Exception) {
+                println("Failed to fetch parliament members")
+                println(e)
+            }
+        }
     }
 }
 

@@ -25,7 +25,7 @@ class ParliamentMemberListItemFragment() : Fragment() {
     companion object {
         @JvmStatic
         @BindingAdapter("loadListItemImage")
-        fun loadListItemImage(view: ImageView, profileImage: String) {
+        fun loadListItemImage(view: ImageView, profileImage: String?) {
             Glide.with(view.context)
                 .load("https://avoindata.eduskunta.fi/$profileImage")
                 .override(300, 300)

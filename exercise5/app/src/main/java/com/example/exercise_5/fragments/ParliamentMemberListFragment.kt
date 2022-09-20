@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.exercise_5.adapters.ParliamentMembersAdapter
+import com.example.exercise_5.data.AppDatabase
 import com.example.exercise_5.data.ExerciseApplication
 import com.example.exercise_5.databinding.ParliamentMemberListBinding
 import com.example.exercise_5.ui.parliamentMember.OnParliamentMemberClickListener
@@ -32,11 +33,11 @@ class ParliamentMemberListFragment : Fragment(), OnParliamentMemberClickListener
 
         viewModel().getAll.observe(viewLifecycleOwner) { members ->
             this.binding.listRecycleView.layoutManager = LinearLayoutManager(requireContext())
-            this.binding.listRecycleView.setHasFixedSize(true)
+//            this.binding.listRecycleView.setHasFixedSize(true)
             this.binding.listRecycleView.adapter = ParliamentMembersAdapter(members, this)
         }
 
-//        viewModel().addParliamentMember(ParliamentMembersData.members)
+        viewModel().populateParliamentMembers()
     }
 
     override fun onParliamentMemberClick(v: View?, index: Number) {
