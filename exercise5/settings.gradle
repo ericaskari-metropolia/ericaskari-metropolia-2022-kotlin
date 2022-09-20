@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "exercise-5"
-include ':app'
+include ":app"

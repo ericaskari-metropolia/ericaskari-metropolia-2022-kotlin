@@ -1,25 +1,18 @@
 package com.example.exercise_5.ui.parliamentMember
 
-import com.example.exercise_5.data.ParliamentMemberDao
+import androidx.annotation.WorkerThread
 
-class ParliamentMemberRepository private constructor(private val parliamentMemberDao: ParliamentMemberDao) {
+class ParliamentMemberRepository(private val parliamentMemberDao: ParliamentMemberDao) {
 
-    fun addParliamentMember(member: ParliamentMember) {
-        parliamentMemberDao.addMember(member)
+    fun addParliamentMembers(members: List<ParliamentMember>) {
+        parliamentMemberDao.insertAll(*members.toTypedArray())
     }
 
-    fun patchParliamentMember(index: Int, member: ParliamentMember) {
-        parliamentMemberDao.patchMember(index, member)
-    }
+    fun getAll() = parliamentMemberDao.getAll()
 
-    fun getParliamentMembers() = parliamentMemberDao.getMembers()
-
-    companion object {
-        @Volatile
-        private var instance: ParliamentMemberRepository? = null
-
-        fun getInstance(parliamentMemberDao: ParliamentMemberDao) = instance ?: synchronized(this) {
-            instance ?: ParliamentMemberRepository(parliamentMemberDao).also { instance = it }
-        }
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insert(members: List<ParliamentMember>) {
+        parliamentMemberDao.insertAll(*members.toTypedArray())
     }
 }
