@@ -29,6 +29,13 @@
             android:name="userId"
             app:argType="integer" />
 
+        <!--        <fragment-->
+        <!--            android:id="@+id/ComponentRateAndComment"-->
+        <!--            android:name="com.example.exercise_5.ui.components.RateAndCommentComponentFragment"-->
+        <!--            android:label="Rate And Comment"-->
+        <!--            tools:layout="">-->
+        <!--        </fragment>-->
+
         <action
             android:id="@+id/to_ParliamentMemberListFragment_action"
             app:enterAnim="@anim/nav_default_enter_anim"

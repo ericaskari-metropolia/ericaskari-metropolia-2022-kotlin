@@ -9,14 +9,17 @@ import com.example.exercise_5.ui.parliamentMember.ParliamentMember
 import com.example.exercise_5.ui.parliamentMember.ParliamentMemberDao
 import com.example.exercise_5.ui.parliamentMemberInfo.ParliamentMemberInfo
 import com.example.exercise_5.ui.parliamentMemberInfo.ParliamentMemberInfoDao
+import com.example.exercise_5.ui.parliamentMemberRating.ParliamentMemberRating
+import com.example.exercise_5.ui.parliamentMemberRating.ParliamentMemberRatingDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [ParliamentMember::class, ParliamentMemberInfo::class], version = 2)
+@Database(entities = [ParliamentMember::class, ParliamentMemberInfo::class, ParliamentMemberRating::class], version = 4)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun parliamentMemberDao(): ParliamentMemberDao
     abstract fun parliamentMemberInfoDao(): ParliamentMemberInfoDao
+    abstract fun parliamentMemberRatingDao(): ParliamentMemberRatingDao
 
     companion object {
         @Volatile

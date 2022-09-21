@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.exercise_5.datasource.AppDatabase
 import com.example.exercise_5.ui.parliamentMember.ParliamentMemberRepository
 import com.example.exercise_5.ui.parliamentMemberInfo.ParliamentMemberInfoRepository
+import com.example.exercise_5.ui.parliamentMemberRating.ParliamentMemberRatingRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
@@ -18,4 +19,5 @@ class ExerciseApplication : Application() {
 
     val parliamentMemberRepository by lazy { ParliamentMemberRepository(appDatabase.parliamentMemberDao()) }
     val parliamentMemberInfoRepository by lazy { ParliamentMemberInfoRepository(appDatabase.parliamentMemberInfoDao()) }
+    val parliamentMemberRatingRepository by lazy { ParliamentMemberRatingRepository(appDatabase.parliamentMemberRatingDao()) }
 }

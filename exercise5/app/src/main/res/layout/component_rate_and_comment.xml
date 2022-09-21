@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="clickHandlers"
+            type="com.example.exercise_5.ui.components.RateAndCommentComponent" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_margin="4dp"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Comment"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/comment_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:text="@={clickHandlers.commentValue}"
+                    android:inputType="textPersonName" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:gravity="fill"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/rate_one"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/white"
+                            android:onClick="@{(v)-> clickHandlers.onRateButtonClick(v, 0)}"
+                            android:scaleType="fitCenter"
+                            app:srcCompat="@drawable/star_empty" />
+
+                        <ImageButton
+                            android:id="@+id/rate_two"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/white"
+                            android:onClick="@{(v)-> clickHandlers.onRateButtonClick(v, 1)}"
+                            android:scaleType="fitCenter"
+                            app:srcCompat="@drawable/star_empty" />
+
+                        <ImageButton
+                            android:id="@+id/rate_three"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/white"
+                            android:onClick="@{(v)-> clickHandlers.onRateButtonClick(v, 2)}"
+                            android:scaleType="fitCenter"
+                            app:srcCompat="@drawable/star_empty" />
+
+                        <ImageButton
+                            android:id="@+id/rate_four"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/white"
+                            android:onClick="@{(v)-> clickHandlers.onRateButtonClick(v, 3)}"
+                            android:scaleType="fitCenter"
+                            app:srcCompat="@drawable/star_empty" />
+
+                        <ImageButton
+                            android:id="@+id/rate_five"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/white"
+                            android:onClick="@{(v)-> clickHandlers.onRateButtonClick(v, 4)}"
+                            android:scaleType="fitCenter"
+                            app:srcCompat="@drawable/star_empty" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:gravity="end"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/create"
+                            android:text="Create"
+                            android:layout_margin="10dp"
+                            android:onClick="@{(v)-> clickHandlers.onCreateRatingButtonClick(v)}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
