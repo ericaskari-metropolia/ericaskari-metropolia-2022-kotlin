@@ -8,6 +8,10 @@
         <variable
             name="clickListener"
             type="com.example.exercise_5.ui.components.NewRateClickListener" />
+
+        <variable
+            name="viewModel"
+            type="com.example.exercise_5.ui.components.NewGradeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

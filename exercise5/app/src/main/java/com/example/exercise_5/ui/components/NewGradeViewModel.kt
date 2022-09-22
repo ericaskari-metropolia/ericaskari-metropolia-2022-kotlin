@@ -1,10 +1,11 @@
 package com.example.exercise_5.ui.components
 
+import android.view.View
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-class NewRatingViewModel : ViewModel() {
+class NewGradeViewModel : ViewModel() {
     val ratingValue: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
 
 
@@ -16,14 +17,18 @@ class NewRatingViewModel : ViewModel() {
         ratingValue.postValue(value)
     }
 
+    fun onRateButtonClick(v: View?, index: Int) {
+        //  TODO: Check if User already rated and update the current value if it exists.
+        updateRatingValue(index)
+    }
 
 }
 
 class NewRatingViewModelFactory() : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(NewRatingViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(NewGradeViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return NewRatingViewModel() as T
+            return NewGradeViewModel() as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

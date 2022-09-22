@@ -1,6 +1,8 @@
 package com.example.exercise_5.ui.parliamentMember
 
-class ParliamentMemberRepository(private val parliamentMemberDao: ParliamentMemberDao) {
+import com.example.exercise_5.network.ApiService
+
+class ParliamentMemberRepository(private val apiService: ApiService, private val parliamentMemberDao: ParliamentMemberDao) {
     fun getAll() = parliamentMemberDao.getAll()
 
     fun deleteMultiple(hetekaIds: IntArray) = parliamentMemberDao.deleteMultiple(hetekaIds)

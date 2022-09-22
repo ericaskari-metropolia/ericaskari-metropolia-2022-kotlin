@@ -30,8 +30,9 @@ class ParliamentMemberDetailsFragment : Fragment(), NewRateClickListener, NewCom
     private val memberViewModel: ParliamentMemberViewModel by viewModels { ParliamentMembersViewModelFactory((requireActivity().application as ExerciseApplication).parliamentMemberRepository) }
     private val memberInfoViewModel: ParliamentMemberInfoViewModel by viewModels { ParliamentMemberInfoViewModelFactory((requireActivity().application as ExerciseApplication).parliamentMemberInfoRepository) }
     private val gradeViewModel: ParliamentMemberGradeViewModel by viewModels { ParliamentMemberGradeViewModelFactory((requireActivity().application as ExerciseApplication).parliamentMemberGradeRepository) }
-    private val newRatingViewModel: NewRatingViewModel by viewModels { NewRatingViewModelFactory() }
+    private val newGradeViewModel: NewGradeViewModel by viewModels { NewRatingViewModelFactory() }
     private val newCommentViewModel: NewCommentViewModel by viewModels { NewCommentViewModelFactory() }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,11 +56,13 @@ class ParliamentMemberDetailsFragment : Fragment(), NewRateClickListener, NewCom
         memberInfoViewModel.getAll.observe(viewLifecycleOwner) { memberInfos ->
             binding.memberInfo = memberInfos[args.userId]
         }
+
         newCommentViewModel.commentValue.observe(viewLifecycleOwner) { commentValue ->
             if (binding.newComment.commentText.text.toString() != commentValue) {
                 binding.newComment.commentText.setText(commentValue)
             }
         }
+
         gradeViewModel.getAll.observe(viewLifecycleOwner) { allRatings ->
             val all = allRatings.filter { it.hetekaId == args.userId }.map { it.grade }
             val sum = all.sum()
@@ -83,7 +86,7 @@ class ParliamentMemberDetailsFragment : Fragment(), NewRateClickListener, NewCom
                 )
             }
         }
-        newRatingViewModel.ratingValue.observe(viewLifecycleOwner) { ratingValue ->
+        newGradeViewModel.ratingValue.observe(viewLifecycleOwner) { ratingValue ->
             val stars = listOf(
                 binding.newRate.rateOne,
                 binding.newRate.rateTwo,
@@ -101,7 +104,7 @@ class ParliamentMemberDetailsFragment : Fragment(), NewRateClickListener, NewCom
 
     override fun onRateButtonClick(v: View?, index: Int) {
         //  TODO: Check if User already rated and update the current value if it exists.
-        newRatingViewModel.updateRatingValue(index)
+        newGradeViewModel.updateRatingValue(index)
         gradeViewModel.createNewRating(args.userId, index)
         Toast.makeText(requireContext(), "Graded!", (22).toInt()).show()
     }

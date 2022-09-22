@@ -2,6 +2,7 @@ package com.example.exercise_5.application
 
 import android.app.Application
 import com.example.exercise_5.datasource.AppDatabase
+import com.example.exercise_5.network.ApiClient
 import com.example.exercise_5.ui.parliamentMember.ParliamentMemberRepository
 import com.example.exercise_5.ui.parliamentMemberInfo.ParliamentMemberInfoRepository
 import com.example.exercise_5.ui.parliamentMemberGrade.ParliamentMemberGradeRepository
@@ -17,7 +18,7 @@ class ExerciseApplication : Application() {
     // rather than when the application starts
     private val appDatabase by lazy { AppDatabase.getInstance(this, applicationScope) }
 
-    val parliamentMemberRepository by lazy { ParliamentMemberRepository(appDatabase.parliamentMemberDao()) }
+    val parliamentMemberRepository by lazy { ParliamentMemberRepository(ApiClient.apiService, appDatabase.parliamentMemberDao()) }
     val parliamentMemberInfoRepository by lazy { ParliamentMemberInfoRepository(appDatabase.parliamentMemberInfoDao()) }
     val parliamentMemberGradeRepository by lazy { ParliamentMemberGradeRepository(appDatabase.parliamentMemberGradeDao()) }
 }
