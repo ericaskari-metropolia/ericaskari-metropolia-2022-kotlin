@@ -165,7 +165,7 @@
 
                         <include
                             android:id="@+id/current_grading"
-                            layout="@layout/rate_current"
+                            layout="@layout/grade_current"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
@@ -192,22 +192,40 @@
 
                     </LinearLayout>
 
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Grade performance"
-                            android:textSize="14sp" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Grade performance"
+                                android:textSize="14sp" />
+
+                            <ImageView
+                                android:id="@+id/editGrade"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_marginHorizontal="10dp"
+                                android:background="@drawable/white"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/edit" />
+
+                        </LinearLayout>
 
 
                         <include
                             android:id="@+id/new_grading"
-                            layout="@layout/rate_new"
+                            layout="@layout/grade_new"
                             android:layout_marginBottom="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />

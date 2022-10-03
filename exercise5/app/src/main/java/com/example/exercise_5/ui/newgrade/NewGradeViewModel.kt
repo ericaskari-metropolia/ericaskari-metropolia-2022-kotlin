@@ -11,17 +11,17 @@ import kotlinx.coroutines.launch
  */
 class NewGradeViewModel(private val repository: MemberGradeRepository) : ViewModel() {
 
-    init {
-        println("NewRatingViewModel INSTANCE CREATED")
-    }
-
-    fun createNewGrade(username: String, hetekaId: Int, rating: Int) {
+    fun createNewGrade(username: String, hetekaId: Int, rating: Int, onSuccessListener: () -> Unit) {
         if (isGraded(username, hetekaId).value == true) {
             return
         }
 
         viewModelScope.launch(Dispatchers.IO) {
             repository.insert(MemberGrade(username, hetekaId, rating))
+
+            viewModelScope.launch {
+                onSuccessListener()
+            }
         }
     }
 

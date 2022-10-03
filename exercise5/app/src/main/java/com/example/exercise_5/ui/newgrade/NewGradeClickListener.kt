@@ -7,5 +7,4 @@ import android.view.View
  */
 interface NewGradeClickListener {
     fun onGradeButtonClick(v: View?, index: Int)
-    fun onEditGradeButtonClick(v: View?)
 }

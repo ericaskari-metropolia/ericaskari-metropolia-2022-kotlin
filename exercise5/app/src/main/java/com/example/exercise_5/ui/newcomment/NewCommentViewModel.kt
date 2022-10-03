@@ -8,16 +8,9 @@ import androidx.lifecycle.*
 class NewCommentViewModel : ViewModel() {
     val commentValue: MutableLiveData<String> by lazy { MutableLiveData<String>() }
 
-
-    init {
-        println("NewCommentViewModel INSTANCE CREATED")
-    }
-
     fun updateCommentValue(value: String) {
         commentValue.postValue(value)
     }
-
-
 }
 
 /**

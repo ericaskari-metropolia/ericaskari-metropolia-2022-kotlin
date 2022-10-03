@@ -1,6 +1,7 @@
 package com.example.exercise_5.fragments
 
 import android.annotation.SuppressLint
+import android.graphics.ColorFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -44,6 +45,8 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
     private val newGradeViewModel: NewGradeViewModel by viewModels { NewRatingViewModelFactory((requireActivity().application as ExerciseApplication).memberGradeRepository) }
     private val newCommentViewModel: NewCommentViewModel by viewModels { NewCommentViewModelFactory() }
 
+    private val username by lazy { (requireActivity().application as ExerciseApplication).username() }
+
     private val currentGrading by lazy {
         listOf(
             binding.currentGrading.rateOne,
@@ -74,6 +77,7 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
 
         binding.newGrading.clickListener = this
         binding.newComment.clickListener = this
+        binding.editGrade.setOnClickListener { this.onEditGradeButtonClick(it) }
 
         memberViewModel.getAll.distinctUntilChanged().observe(viewLifecycleOwner) { members ->
             binding.member = members[args.userId]
@@ -105,36 +109,39 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
             }
         }
 
-        newGradeViewModel.currentGrade((requireActivity().application as ExerciseApplication).username(), args.userId)
-            .observe(viewLifecycleOwner) { currentGrade ->
-                println("currentGrade: $currentGrade")
-                if (currentGrade != null) {
-                    for (i in 0 until newGrading.count()) {
-                        newGrading[i].setImageResource(if (i <= (currentGrade - 1)) R.drawable.start_filled else R.drawable.star_empty)
-                    }
+        newGradeViewModel.currentGrade(username, args.userId).observe(viewLifecycleOwner) { currentGrade ->
+            if (currentGrade != null) {
+                for (i in 0 until newGrading.count()) {
+                    newGrading[i].setImageResource(if (i <= (currentGrade - 1)) R.drawable.start_filled else R.drawable.star_empty)
                 }
             }
+        }
 
-        newGradeViewModel.isGraded((requireActivity().application as ExerciseApplication).username(), args.userId)
-            .observe(viewLifecycleOwner) { isGraded ->
-                binding.newGrading.edit.visibility = if (isGraded) View.VISIBLE else View.INVISIBLE
-                for (imageButton in newGrading) {
-                    imageButton.isEnabled = !isGraded
-                }
+        newGradeViewModel.isGraded(username, args.userId).observe(viewLifecycleOwner) { isGraded ->
+            binding.editGrade.visibility = if (isGraded) View.VISIBLE else View.INVISIBLE
+            for (imageButton in newGrading) {
+                imageButton.isEnabled = !isGraded
+                imageButton.alpha = if (isGraded) 0.8f else 1f
             }
+        }
 
+    }
+
+    private fun onEditGradeButtonClick(v: View?) {
+        binding.editGrade.visibility = View.INVISIBLE
+        for (imageButton in newGrading) {
+            imageButton.isEnabled = true
+            imageButton.alpha = 1f
+
+        }
     }
 
     override fun onGradeButtonClick(v: View?, index: Int) {
-        newGradeViewModel.createNewGrade((requireActivity().application as ExerciseApplication).username(), args.userId, index)
-    }
-
-    override fun onEditGradeButtonClick(v: View?) {
-        binding.newGrading.edit.visibility = View.INVISIBLE
-        for (imageButton in newGrading) {
-            imageButton.isEnabled = true
+        newGradeViewModel.createNewGrade(username, args.userId, index) {
+            Toast.makeText(requireContext(), "Successfully graded!", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     override fun onCommentValueTextChange(value: String) {
         newCommentViewModel.updateCommentValue(value)
