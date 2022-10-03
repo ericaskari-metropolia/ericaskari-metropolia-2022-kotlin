@@ -8,6 +8,8 @@ import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.exercise_5.ui.member.Member
 import com.example.exercise_5.ui.member.MemberDao
+import com.example.exercise_5.ui.membercomment.MemberComment
+import com.example.exercise_5.ui.membercomment.MemberCommentDao
 import com.example.exercise_5.ui.memberinfo.MemberInfo
 import com.example.exercise_5.ui.memberinfo.MemberInfoDao
 import com.example.exercise_5.ui.membergrade.MemberGrade
@@ -21,12 +23,13 @@ import kotlinx.coroutines.launch
 /**
  * @author Mohammad Askari
  */
-@Database(entities = [Member::class, MemberInfo::class, MemberGrade::class, Party::class], version = 8)
+@Database(entities = [Member::class, MemberInfo::class, MemberGrade::class, Party::class, MemberComment::class], version = 9)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun memberDao(): MemberDao
     abstract fun memberInfoDao(): MemberInfoDao
     abstract fun memberGradeDao(): MemberGradeDao
+    abstract fun memberCommentDao(): MemberCommentDao
     abstract fun partyDao(): PartyDao
 
     companion object {

@@ -10,6 +10,8 @@ class MemberCommentRepository(private val apiService: ApiService, private val da
 
     fun deleteAll() = dao.deleteAll()
 
+    fun loadAllByMemberId(vararg items: Int) = dao.loadAllByMemberIds(items)
+
     fun insert(vararg items: MemberComment) = dao.insertAll(*items)
 
     suspend fun fetch(): List<MemberComment> = apiService.getMemberCommentList()

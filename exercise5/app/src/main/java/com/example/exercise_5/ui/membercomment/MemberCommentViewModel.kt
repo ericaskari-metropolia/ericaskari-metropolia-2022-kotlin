@@ -11,6 +11,9 @@ import java.math.RoundingMode
 class MemberCommentViewModel(private val repository: MemberCommentRepository) : ViewModel() {
     val getAll: LiveData<List<MemberComment>> = repository.getAll()
 
+    fun loadAllByMemberId(userId: Int): LiveData<List<MemberComment>> = repository.loadAllByMemberId(userId)
+
+
     fun populate() {
         viewModelScope.launch(Dispatchers.IO) {
             val members = repository.fetch()

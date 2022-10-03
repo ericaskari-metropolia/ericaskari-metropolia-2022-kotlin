@@ -10,7 +10,7 @@ import java.util.*
  */
 @Entity
 data class MemberComment(
-    @PrimaryKey val id: String,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo val username: String,
     @ColumnInfo val hetekaId: Int,
     @ColumnInfo val createdAt: Date,

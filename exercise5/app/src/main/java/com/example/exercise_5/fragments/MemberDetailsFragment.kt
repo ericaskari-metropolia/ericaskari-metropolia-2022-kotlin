@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.exercise_5.R
 import com.example.exercise_5.application.ExerciseApplication
@@ -19,6 +20,11 @@ import com.example.exercise_5.databinding.MemberDetailsBinding
 import com.example.exercise_5.network.ImageApiClient
 import com.example.exercise_5.ui.member.MemberViewModel
 import com.example.exercise_5.ui.member.MemberViewModelFactory
+import com.example.exercise_5.ui.member.MembersAdapter
+import com.example.exercise_5.ui.membercomment.MemberCommentAdapter
+import com.example.exercise_5.ui.membercomment.MemberCommentViewHolder
+import com.example.exercise_5.ui.membercomment.MemberCommentViewModel
+import com.example.exercise_5.ui.membercomment.MemberCommentViewModelFactory
 import com.example.exercise_5.ui.membergrade.MemberGradeViewModel
 import com.example.exercise_5.ui.membergrade.MemberGradeViewModelFactory
 import com.example.exercise_5.ui.memberinfo.MemberInfoViewModel
@@ -33,15 +39,19 @@ import com.example.exercise_5.ui.newgrade.NewGradingViewModelFactory
 /**
  * @author Mohammad Askari
  */
-class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClickListener {
+class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClickListener,
+    MemberCommentViewHolder.Companion.OnMemberCommentClickListener {
     lateinit var binding: MemberDetailsBinding
     private val args: MemberDetailsFragmentArgs by navArgs()
 
-    private val memberViewModel: MemberViewModel by viewModels { MemberViewModelFactory((requireActivity().application as ExerciseApplication).memberRepository) }
-    private val memberInfoViewModel: MemberInfoViewModel by viewModels { MemberInfoViewModelFactory((requireActivity().application as ExerciseApplication).memberInfoRepository) }
-    private val memberGradeViewModel: MemberGradeViewModel by viewModels { MemberGradeViewModelFactory((requireActivity().application as ExerciseApplication).memberGradeRepository) }
-    private val newGradeViewModel: NewGradeViewModel by viewModels { NewGradingViewModelFactory((requireActivity().application as ExerciseApplication).memberGradeRepository) }
-    private val newCommentViewModel: NewCommentViewModel by viewModels { NewCommentViewModelFactory() }
+    private val application by lazy { requireActivity().application as ExerciseApplication }
+
+    private val memberViewModel: MemberViewModel by viewModels { MemberViewModelFactory(application.memberRepository) }
+    private val memberInfoViewModel: MemberInfoViewModel by viewModels { MemberInfoViewModelFactory(application.memberInfoRepository) }
+    private val memberGradeViewModel: MemberGradeViewModel by viewModels { MemberGradeViewModelFactory(application.memberGradeRepository) }
+    private val newGradeViewModel: NewGradeViewModel by viewModels { NewGradingViewModelFactory(application.memberGradeRepository) }
+    private val newCommentViewModel: NewCommentViewModel by viewModels { NewCommentViewModelFactory(application.memberCommentRepository) }
+    private val memberCommentViewModel: MemberCommentViewModel by viewModels { MemberCommentViewModelFactory(application.memberCommentRepository) }
 
     private val username by lazy { (requireActivity().application as ExerciseApplication).username() }
 
@@ -81,14 +91,13 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
             binding.member = members[args.userId]
         }
 
-        memberInfoViewModel.getAll.distinctUntilChanged().observe(viewLifecycleOwner) { memberInfoList ->
-            binding.memberInfo = memberInfoList[args.userId]
+        memberCommentViewModel.loadAllByMemberId(args.userId).distinctUntilChanged().observe(viewLifecycleOwner) { comments ->
+            this.binding.commentSection.listRecycleView.layoutManager = LinearLayoutManager(requireContext())
+            this.binding.commentSection.listRecycleView.adapter = MemberCommentAdapter(comments, this)
         }
 
-        newCommentViewModel.commentValue.distinctUntilChanged().observe(viewLifecycleOwner) { commentValue ->
-            if (binding.newComment.commentText.text.toString() != commentValue) {
-                binding.newComment.commentText.setText(commentValue)
-            }
+        memberInfoViewModel.getAll.distinctUntilChanged().observe(viewLifecycleOwner) { memberInfoList ->
+            binding.memberInfo = memberInfoList[args.userId]
         }
 
         memberGradeViewModel.getGradeValue(args.userId).distinctUntilChanged().observe(viewLifecycleOwner) { gradeValue ->
@@ -141,6 +150,14 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
     }
 
     override fun onCreateCommentButtonClicked(v: View?) {
+        if (binding.newComment.commentText.text.isEmpty()) {
+            return
+        }
+
+        newCommentViewModel.createNewComment(username, args.userId, binding.newComment.commentText.text.toString()) {
+            Toast.makeText(requireContext(), "Successfully commented!", Toast.LENGTH_SHORT).show()
+            binding.newComment.commentText.setText("")
+        }
     }
 
     companion object {
@@ -154,5 +171,9 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
                 .error(R.drawable.user)
                 .into(view)
         }
+    }
+
+    override fun onMemberCommentClick(v: View?, index: Number) {
+
     }
 }
