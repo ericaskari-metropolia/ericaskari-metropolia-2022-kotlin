@@ -11,7 +11,7 @@
 
         <variable
             name="seatCount"
-            type="Integer" />
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

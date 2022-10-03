@@ -18,17 +18,11 @@ class DashboardFragment : Fragment() {
     ): View? {
         binding = DashboardBinding.inflate(inflater, container, false)
         binding.viewParties.setOnClickListener { this.onViewPartiesButtonClick(it) }
-        binding.viewAllMembers.setOnClickListener { this.onViewAllMembersButtonClick(it) }
         return binding.root;
     }
 
     private fun onViewPartiesButtonClick(v0: View?) {
         val action = DashboardFragmentDirections.toPartiesPageFragmentAction()
-        findNavController().navigate(action)
-    }
-
-    private fun onViewAllMembersButtonClick(v0: View?) {
-        val action = DashboardFragmentDirections.toParliamentMemberListFragmentAction()
         findNavController().navigate(action)
     }
 }

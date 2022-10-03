@@ -8,20 +8,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MemberInfoViewModel(private val repository: MemberInfoRepository) : ViewModel() {
-
     val getAll: LiveData<List<MemberInfo>> = repository.getAll()
 
-    private fun insertAll(members: List<MemberInfo>) = viewModelScope.launch(Dispatchers.IO) {
-        repository.insert(members)
-    }
-
-    private fun deleteMultiple(hetekaIds: IntArray) = viewModelScope.launch(Dispatchers.IO) {
-        repository.deleteMultiple(hetekaIds)
-    }
-
     fun populate() {
-        viewModelScope.launch {
-            insertAll(repository.fetch())
+        viewModelScope.launch(Dispatchers.IO) {
+            val members = repository.fetch()
+            repository.insert(*members.toTypedArray())
         }
     }
 }

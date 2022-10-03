@@ -16,10 +16,7 @@ class MembersAdapter(
         return this.memberList.size
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): MemberViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemberViewHolder {
         val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
 
         val binding: MemberListItemBinding =
@@ -29,17 +26,11 @@ class MembersAdapter(
     }
 
     override fun onBindViewHolder(holder: MemberViewHolder, position: Int) {
-        holder.setViewHolderData(
-            memberList[position],
-            this.onParliamentClickListener,
-            position
-        );
+        holder.setViewHolderData(memberList[position], this.onParliamentClickListener, position);
     }
 }
 
-class MemberViewHolder(val binding: MemberListItemBinding) :
-    RecyclerView.ViewHolder(binding.root), View.OnClickListener {
-
+class MemberViewHolder(val binding: MemberListItemBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
     init {
         binding.root.setOnClickListener(this)
     }
@@ -55,20 +46,13 @@ class MemberViewHolder(val binding: MemberListItemBinding) :
         listener: OnParliamentMemberClickListener,
         index: Number
     ) {
-        //  Set UI
         binding.member = member
-
-        //  Save listener instance
         this.listener = listener
-
-        //  Save position to pass into click listener
         this.index = index
     }
 
 
     override fun onClick(v: View?) {
-        println("ParliamentListItemRecycleViewHolder onClick: " + this.index)
-        //  Validation
         this.listener.onParliamentMemberClick(v, this.index)
     }
 

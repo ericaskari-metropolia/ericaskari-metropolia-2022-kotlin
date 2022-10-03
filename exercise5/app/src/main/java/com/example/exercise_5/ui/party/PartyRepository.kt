@@ -7,5 +7,12 @@ class PartyRepository(private val apiService: ApiService, private val dao: Party
 
     fun deleteAll() = dao.deleteAll()
 
-    fun insert(members: List<Party>) = dao.insertAll(*members.toTypedArray())
+    fun insert(vararg items: Party) = dao.insertAll(*items)
+
+    suspend fun fetch(): List<Party> = apiService.getMemberList()
+        .map { it.party }
+        .toList()
+        .groupingBy { it }
+        .eachCount()
+        .map { Party(it.key, it.value) }
 }

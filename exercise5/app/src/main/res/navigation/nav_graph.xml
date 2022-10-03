@@ -60,6 +60,9 @@
         android:name="com.example.exercise_5.fragments.MemberListPageFragment"
         android:label="Parliament member list"
         tools:layout="@layout/member_list">
+        <argument
+            android:name="partyName"
+            app:argType="string" />
 
         <action
             android:id="@+id/to_ParliamentMemberDetailsFragment_action"

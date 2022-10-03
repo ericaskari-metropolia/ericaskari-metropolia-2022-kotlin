@@ -9,6 +9,7 @@ import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.exercise_5.R
@@ -24,12 +25,12 @@ import com.example.exercise_5.ui.memberinfo.MemberInfoViewModelFactory
 
 class MemberListPageFragment : Fragment(), MemberViewHolder.Companion.OnParliamentMemberClickListener {
     private lateinit var binding: MemberListBinding
+    private val args: MemberListPageFragmentArgs by navArgs()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    private val memberViewModel: MemberViewModel by viewModels { MemberViewModelFactory((requireActivity().application as ExerciseApplication).memberRepository) }
+    private val memberInfoViewModel: MemberInfoViewModel by viewModels { MemberInfoViewModelFactory((requireActivity().application as ExerciseApplication).memberInfoRepository) }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = MemberListBinding.inflate(inflater, container, false)
         return binding.root;
     }
@@ -37,28 +38,18 @@ class MemberListPageFragment : Fragment(), MemberViewHolder.Companion.OnParliame
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        parliamentMemberViewModel().getAll.observe(viewLifecycleOwner) { members ->
+        memberViewModel.getAll.observe(viewLifecycleOwner) { members ->
             this.binding.listRecycleView.layoutManager = LinearLayoutManager(requireContext())
-            this.binding.listRecycleView.adapter = MembersAdapter(members, this)
+            this.binding.listRecycleView.adapter = MembersAdapter(members.filter { it.party == args.partyName }, this)
         }
 
-        parliamentMemberViewModel().populate()
-        parliamentMemberInfoViewModel().populate()
+        memberViewModel.populate()
+        memberInfoViewModel.populate()
     }
 
     override fun onParliamentMemberClick(v: View?, index: Number) {
         val action = MemberListPageFragmentDirections.toParliamentMemberDetailsFragmentAction(index.toInt())
         findNavController().navigate(action)
-    }
-
-    private fun parliamentMemberViewModel(): MemberViewModel {
-        val viewModel: MemberViewModel by viewModels { MemberViewModelFactory((requireActivity().application as ExerciseApplication).memberRepository) }
-        return viewModel
-    }
-
-    private fun parliamentMemberInfoViewModel(): MemberInfoViewModel {
-        val viewModel: MemberInfoViewModel by viewModels { MemberInfoViewModelFactory((requireActivity().application as ExerciseApplication).memberInfoRepository) }
-        return viewModel
     }
 }
 

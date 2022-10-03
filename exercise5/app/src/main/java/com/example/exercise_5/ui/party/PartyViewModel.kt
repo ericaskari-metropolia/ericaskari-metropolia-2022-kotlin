@@ -11,22 +11,11 @@ class PartyViewModel(private val repository: PartyRepository) : ViewModel() {
 
     val getAll: LiveData<List<Party>> = repository.getAll()
 
-    private fun insertAll(Partys: List<Party>) = viewModelScope.launch(Dispatchers.IO) {
-        repository.insert(Partys)
-    }
-
     fun populate() {
-//        viewModelScope.launch {
-//            try {
-//                val fetchedPartys: List<Party> = ParliamentApi.parliamentApiService.getParliamentPartys()
-//                println("fetchedPartys fetched: ${fetchedPartys.count()}")
-//                insertAll(fetchedPartys)
-//                println("Parliament Partys have been added.")
-//            } catch (e: Exception) {
-//                println("Failed to fetch parliament Partys")
-//                println(e)
-//            }
-//        }
+        viewModelScope.launch(Dispatchers.IO) {
+            val members = repository.fetch()
+            repository.insert(*members.toTypedArray())
+        }
     }
 }
 

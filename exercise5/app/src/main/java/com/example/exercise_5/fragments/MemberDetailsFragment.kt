@@ -34,11 +34,7 @@ class MemberDetailsFragment : Fragment(), NewRateClickListener, NewCommentClickL
     private val newCommentViewModel: NewCommentViewModel by viewModels { NewCommentViewModelFactory() }
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = MemberDetailsBinding.inflate(inflater, container, false)
         return binding.root;
     }
@@ -46,13 +42,13 @@ class MemberDetailsFragment : Fragment(), NewRateClickListener, NewCommentClickL
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Connecting interfaces to view
         binding.newRate.clickListener = this
         binding.newComment.clickListener = this
 
         memberViewModel.getAll.observe(viewLifecycleOwner) { members ->
             binding.member = members[args.userId]
         }
+
         memberInfoViewModel.getAll.observe(viewLifecycleOwner) { memberInfos ->
             binding.memberInfo = memberInfos[args.userId]
         }
@@ -86,6 +82,7 @@ class MemberDetailsFragment : Fragment(), NewRateClickListener, NewCommentClickL
                 )
             }
         }
+
         newGradeViewModel.ratingValue.observe(viewLifecycleOwner) { ratingValue ->
             val stars = listOf(
                 binding.newRate.rateOne,
@@ -103,10 +100,9 @@ class MemberDetailsFragment : Fragment(), NewRateClickListener, NewCommentClickL
     }
 
     override fun onRateButtonClick(v: View?, index: Int) {
-        //  TODO: Check if User already rated and update the current value if it exists.
         newGradeViewModel.updateRatingValue(index)
         gradeViewModel.createNewRating(args.userId, index)
-        Toast.makeText(requireContext(), "Graded!", (22).toInt()).show()
+        Toast.makeText(requireContext(), "Graded!", Toast.LENGTH_SHORT).show()
     }
 
     override fun onCommentValueTextChange(value: String) {
@@ -114,7 +110,6 @@ class MemberDetailsFragment : Fragment(), NewRateClickListener, NewCommentClickL
     }
 
     override fun onCreateCommentButtonClicked(v: View?) {
-
     }
 
     companion object {

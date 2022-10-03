@@ -8,38 +8,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MemberGradeViewModel(private val repository: MemberGradeRepository) : ViewModel() {
-
     val getAll: LiveData<List<MemberGrade>> = repository.getAll()
 
-    private fun insert(member: MemberGrade) = viewModelScope.launch(Dispatchers.IO) {
-        repository.insert(member)
-    }
-
-    private fun insertAll(members: List<MemberGrade>) = viewModelScope.launch(Dispatchers.IO) {
-        repository.insert(*members.toTypedArray())
-    }
-
-    private fun deleteMultiple(hetekaIds: IntArray) = viewModelScope.launch(Dispatchers.IO) {
-        repository.deleteMultiple(hetekaIds)
-    }
-
-    private fun deleteAll() = viewModelScope.launch(Dispatchers.IO) {
-        repository.deleteAll()
-    }
-
     fun createNewRating(hetekaId: Int, rating: Int) {
-        viewModelScope.launch {
-            MemberGrade(0, hetekaId, "anonymous-user", rating)
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insert(MemberGrade(0, hetekaId, "anonymous-user", rating))
         }
     }
 
-    fun deleteAllGrades() {
-        viewModelScope.launch {
-            try {
-                deleteAll()
-            } catch (e: Exception) {
-                println(e)
-            }
+    fun populate() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val members = repository.fetch()
+            repository.insert(*members.toTypedArray())
         }
     }
 }

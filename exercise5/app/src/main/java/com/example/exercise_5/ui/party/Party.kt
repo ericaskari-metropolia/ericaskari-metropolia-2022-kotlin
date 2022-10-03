@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Party(
-    @PrimaryKey val id: Int,
-    @ColumnInfo val name: String,
+    @PrimaryKey val name: String,
     @ColumnInfo val seatCount: Int,
 )
