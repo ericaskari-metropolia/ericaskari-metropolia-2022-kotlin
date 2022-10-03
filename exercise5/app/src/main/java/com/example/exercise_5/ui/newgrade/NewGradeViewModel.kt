@@ -40,7 +40,7 @@ class NewGradeViewModel(private val repository: MemberGradeRepository) : ViewMod
 /**
  * @author Mohammad Askari
  */
-class NewRatingViewModelFactory(private val repository: MemberGradeRepository) : ViewModelProvider.Factory {
+class NewGradingViewModelFactory(private val repository: MemberGradeRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(NewGradeViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

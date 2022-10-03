@@ -1,7 +1,6 @@
 package com.example.exercise_5.fragments
 
 import android.annotation.SuppressLint
-import android.graphics.ColorFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +16,6 @@ import com.bumptech.glide.Glide
 import com.example.exercise_5.R
 import com.example.exercise_5.application.ExerciseApplication
 import com.example.exercise_5.databinding.MemberDetailsBinding
-import com.example.exercise_5.datasource.AppDatabase
 import com.example.exercise_5.network.ImageApiClient
 import com.example.exercise_5.ui.member.MemberViewModel
 import com.example.exercise_5.ui.member.MemberViewModelFactory
@@ -30,7 +28,7 @@ import com.example.exercise_5.ui.newcomment.NewCommentViewModel
 import com.example.exercise_5.ui.newcomment.NewCommentViewModelFactory
 import com.example.exercise_5.ui.newgrade.NewGradeViewModel
 import com.example.exercise_5.ui.newgrade.NewGradeClickListener
-import com.example.exercise_5.ui.newgrade.NewRatingViewModelFactory
+import com.example.exercise_5.ui.newgrade.NewGradingViewModelFactory
 
 /**
  * @author Mohammad Askari
@@ -42,7 +40,7 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
     private val memberViewModel: MemberViewModel by viewModels { MemberViewModelFactory((requireActivity().application as ExerciseApplication).memberRepository) }
     private val memberInfoViewModel: MemberInfoViewModel by viewModels { MemberInfoViewModelFactory((requireActivity().application as ExerciseApplication).memberInfoRepository) }
     private val memberGradeViewModel: MemberGradeViewModel by viewModels { MemberGradeViewModelFactory((requireActivity().application as ExerciseApplication).memberGradeRepository) }
-    private val newGradeViewModel: NewGradeViewModel by viewModels { NewRatingViewModelFactory((requireActivity().application as ExerciseApplication).memberGradeRepository) }
+    private val newGradeViewModel: NewGradeViewModel by viewModels { NewGradingViewModelFactory((requireActivity().application as ExerciseApplication).memberGradeRepository) }
     private val newCommentViewModel: NewCommentViewModel by viewModels { NewCommentViewModelFactory() }
 
     private val username by lazy { (requireActivity().application as ExerciseApplication).username() }
