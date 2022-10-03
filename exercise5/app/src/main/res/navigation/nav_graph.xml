@@ -3,7 +3,57 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/ParliamentMemberListFragment">
+    app:startDestination="@id/LoginPageFragment">
+
+    <fragment
+        android:id="@+id/LoginPageFragment"
+        android:name="com.example.exercise_5.fragments.LoginPageFragment"
+        android:label="Login"
+        tools:layout="@layout/login_page">
+
+        <action
+            android:id="@+id/to_HomePageFragment_action"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim"
+            app:destination="@id/HomePageFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/HomePageFragment"
+        android:name="com.example.exercise_5.fragments.HomePageFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/home_page">
+        <action
+            android:id="@+id/to_PartiesPageFragment_action"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim"
+            app:destination="@id/PartiesPageFragment" />
+        <action
+            android:id="@+id/to_ParliamentMemberListFragment_action"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim"
+            app:destination="@id/ParliamentMemberListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/PartiesPageFragment"
+        android:name="com.example.exercise_5.fragments.PartiesPageFragment"
+        android:label="Parties"
+        tools:layout="@layout/parties_page">
+        <action
+            android:id="@+id/to_ParliamentMemberListFragment_action"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim"
+            app:destination="@id/ParliamentMemberListFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/ParliamentMemberListFragment"
@@ -11,6 +61,10 @@
         android:label="Parliament member list"
         tools:layout="@layout/parliament_member_list">
 
+        <argument
+            android:name="partyId"
+            android:defaultValue="-1"
+            app:argType="integer" />
         <action
             android:id="@+id/to_ParliamentMemberDetailsFragment_action"
             app:enterAnim="@anim/nav_default_enter_anim"
@@ -28,20 +82,5 @@
         <argument
             android:name="userId"
             app:argType="integer" />
-
-        <!--        <fragment-->
-        <!--            android:id="@+id/ComponentRateAndComment"-->
-        <!--            android:name="com.example.exercise_5.ui.components.RateAndCommentComponentFragment"-->
-        <!--            android:label="Rate And Comment"-->
-        <!--            tools:layout="">-->
-        <!--        </fragment>-->
-
-        <action
-            android:id="@+id/to_ParliamentMemberListFragment_action"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_enter_anim"
-            app:popExitAnim="@anim/nav_default_exit_anim"
-            app:destination="@id/ParliamentMemberListFragment" />
     </fragment>
 </navigation>

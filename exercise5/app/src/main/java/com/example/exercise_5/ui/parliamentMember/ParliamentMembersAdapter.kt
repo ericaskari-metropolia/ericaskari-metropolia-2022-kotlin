@@ -5,12 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.exercise_5.databinding.ParliamentMemberListItemBinding
-import com.example.exercise_5.ui.parliamentMember.OnParliamentMemberClickListener
 import com.example.exercise_5.ui.parliamentMember.ParliamentMember
+
 
 class ParliamentMembersAdapter(
     private val parliamentMemberList: List<ParliamentMember>,
-    private val onParliamentClickListener: OnParliamentMemberClickListener
+    private val onParliamentClickListener: ParliamentMemberViewHolder.Companion.OnParliamentMemberClickListener
 ) : RecyclerView.Adapter<ParliamentMemberViewHolder>() {
 
     override fun getItemCount(): Int {
@@ -72,4 +72,11 @@ class ParliamentMemberViewHolder(val binding: ParliamentMemberListItemBinding) :
         //  Validation
         this.listener.onParliamentMemberClick(v, this.index)
     }
+
+    companion object {
+        interface OnParliamentMemberClickListener {
+            fun onParliamentMemberClick(v: View?, index: Number)
+        }
+    }
 }
+

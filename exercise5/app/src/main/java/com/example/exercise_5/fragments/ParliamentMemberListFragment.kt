@@ -8,16 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.exercise_5.adapters.ParliamentMemberViewHolder
 import com.example.exercise_5.adapters.ParliamentMembersAdapter
 import com.example.exercise_5.application.ExerciseApplication
 import com.example.exercise_5.databinding.ParliamentMemberListBinding
-import com.example.exercise_5.ui.parliamentMember.OnParliamentMemberClickListener
 import com.example.exercise_5.ui.parliamentMember.ParliamentMemberViewModel
 import com.example.exercise_5.ui.parliamentMember.ParliamentMembersViewModelFactory
 import com.example.exercise_5.ui.parliamentMemberInfo.ParliamentMemberInfoViewModel
 import com.example.exercise_5.ui.parliamentMemberInfo.ParliamentMemberInfoViewModelFactory
 
-class ParliamentMemberListFragment : Fragment(), OnParliamentMemberClickListener {
+class ParliamentMemberListFragment : Fragment(), ParliamentMemberViewHolder.Companion.OnParliamentMemberClickListener {
     private lateinit var binding: ParliamentMemberListBinding
 
     override fun onCreateView(
