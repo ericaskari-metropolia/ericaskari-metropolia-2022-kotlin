@@ -45,7 +45,7 @@
         android:id="@+id/PartiesPageFragment"
         android:name="com.example.exercise_5.fragments.PartiesFragment"
         android:label="Parties"
-        tools:layout="@layout/parties">
+        tools:layout="@layout/party_list">
         <action
             android:id="@+id/to_ParliamentMemberListFragment_action"
             app:enterAnim="@anim/nav_default_enter_anim"
@@ -61,10 +61,6 @@
         android:label="Parliament member list"
         tools:layout="@layout/member_list">
 
-        <argument
-            android:name="partyId"
-            android:defaultValue="-1"
-            app:argType="integer" />
         <action
             android:id="@+id/to_ParliamentMemberDetailsFragment_action"
             app:enterAnim="@anim/nav_default_enter_anim"

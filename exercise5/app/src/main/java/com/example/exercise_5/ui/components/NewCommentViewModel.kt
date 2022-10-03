@@ -1,10 +1,6 @@
 package com.example.exercise_5.ui.components
 
-import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class NewCommentViewModel : ViewModel() {
     val commentValue: MutableLiveData<String> by lazy { MutableLiveData<String>() }

@@ -6,6 +6,7 @@ import com.example.exercise_5.network.ApiClient
 import com.example.exercise_5.ui.member.MemberRepository
 import com.example.exercise_5.ui.memberinfo.MemberInfoRepository
 import com.example.exercise_5.ui.membergrade.MemberGradeRepository
+import com.example.exercise_5.ui.party.PartyRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
@@ -18,7 +19,8 @@ class ExerciseApplication : Application() {
     // rather than when the application starts
     private val appDatabase by lazy { AppDatabase.getInstance(this, applicationScope) }
 
-    val memberRepository by lazy { MemberRepository(ApiClient.apiService, appDatabase.parliamentMemberDao()) }
-    val memberInfoRepository by lazy { MemberInfoRepository(appDatabase.parliamentMemberInfoDao()) }
-    val memberGradeRepository by lazy { MemberGradeRepository(appDatabase.parliamentMemberGradeDao()) }
+    val memberRepository by lazy { MemberRepository(ApiClient.apiService, appDatabase.memberDao()) }
+    val memberInfoRepository by lazy { MemberInfoRepository(ApiClient.apiService, appDatabase.memberInfoDao()) }
+    val memberGradeRepository by lazy { MemberGradeRepository(ApiClient.apiService, appDatabase.memberGradeDao()) }
+    val partyRepository by lazy { PartyRepository(ApiClient.apiService, appDatabase.partyDao()) }
 }

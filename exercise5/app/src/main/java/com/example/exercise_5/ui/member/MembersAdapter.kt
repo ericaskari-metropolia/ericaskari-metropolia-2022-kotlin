@@ -1,11 +1,10 @@
-package com.example.exercise_5.adapters
+package com.example.exercise_5.ui.member
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.exercise_5.databinding.MemberListItemBinding
-import com.example.exercise_5.ui.member.Member
 
 
 class MembersAdapter(

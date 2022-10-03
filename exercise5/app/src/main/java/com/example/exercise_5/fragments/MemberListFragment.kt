@@ -12,8 +12,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.exercise_5.R
-import com.example.exercise_5.adapters.MemberViewHolder
-import com.example.exercise_5.adapters.MembersAdapter
+import com.example.exercise_5.ui.member.MemberViewHolder
+import com.example.exercise_5.ui.member.MembersAdapter
 import com.example.exercise_5.application.ExerciseApplication
 import com.example.exercise_5.databinding.MemberListBinding
 import com.example.exercise_5.databinding.MemberListItemBinding
@@ -39,7 +39,6 @@ class MemberListPageFragment : Fragment(), MemberViewHolder.Companion.OnParliame
 
         parliamentMemberViewModel().getAll.observe(viewLifecycleOwner) { members ->
             this.binding.listRecycleView.layoutManager = LinearLayoutManager(requireContext())
-//            this.binding.listRecycleView.setHasFixedSize(true)
             this.binding.listRecycleView.adapter = MembersAdapter(members, this)
         }
 

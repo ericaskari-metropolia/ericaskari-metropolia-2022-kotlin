@@ -5,17 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.exercise_5.databinding.PartiesBinding
+import com.example.exercise_5.databinding.PartyListBinding
 
+/**
+ * @author Mohammad Askari
+ */
 class PartiesFragment : Fragment() {
-    lateinit var binding: PartiesBinding
+    lateinit var binding: PartyListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = PartiesBinding.inflate(inflater, container, false)
+        binding = PartyListBinding.inflate(inflater, container, false)
         return binding.root;
     }
 

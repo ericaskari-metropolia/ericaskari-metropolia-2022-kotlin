@@ -29,12 +29,7 @@ class MemberGradeViewModel(private val repository: MemberGradeRepository) : View
 
     fun createNewRating(hetekaId: Int, rating: Int) {
         viewModelScope.launch {
-            try {
-                val grade = MemberGrade(0, hetekaId, "anonymous-user", rating)
-                insert(grade)
-            } catch (e: Exception) {
-                println(e)
-            }
+            MemberGrade(0, hetekaId, "anonymous-user", rating)
         }
     }
 

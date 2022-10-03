@@ -1,8 +1,6 @@
 package com.example.exercise_5.ui.components
 
 import android.view.View
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.*
 
 class NewGradeViewModel : ViewModel() {

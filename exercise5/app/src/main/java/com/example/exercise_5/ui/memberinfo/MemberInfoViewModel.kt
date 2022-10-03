@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.exercise_5.network.ParliamentApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -22,14 +21,7 @@ class MemberInfoViewModel(private val repository: MemberInfoRepository) : ViewMo
 
     fun populate() {
         viewModelScope.launch {
-            try {
-                val response: List<MemberInfo> = ParliamentApi.parliamentApiService.getParliamentMemberInfos()
-                insertAll(response)
-                println("Parliament member info have been added.")
-            } catch (e: Exception) {
-                println("Failed to fetch parliament member info")
-                println(e)
-            }
+            insertAll(repository.fetch())
         }
     }
 }

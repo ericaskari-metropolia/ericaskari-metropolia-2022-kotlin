@@ -2,10 +2,13 @@ package com.example.exercise_5.ui.member
 
 import com.example.exercise_5.network.ApiService
 
-class MemberRepository(private val apiService: ApiService, private val memberDao: MemberDao) {
-    fun getAll() = memberDao.getAll()
+class MemberRepository(private val api: ApiService, private val dao: MemberDao) {
+    fun getAll() = dao.getAll()
 
-    fun deleteMultiple(hetekaIds: IntArray) = memberDao.deleteMultiple(hetekaIds)
+    fun deleteMultiple(hetekaIds: IntArray) = dao.deleteMultiple(hetekaIds)
 
-    fun insert(members: List<Member>) = memberDao.insertAll(*members.toTypedArray())
+    fun insert(members: List<Member>) = dao.insertAll(*members.toTypedArray())
+
+    suspend fun fetch() = api.getParliamentMembers()
+
 }

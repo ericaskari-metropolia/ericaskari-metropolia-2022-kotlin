@@ -11,15 +11,18 @@ import com.example.exercise_5.ui.memberinfo.MemberInfo
 import com.example.exercise_5.ui.memberinfo.MemberInfoDao
 import com.example.exercise_5.ui.membergrade.MemberGrade
 import com.example.exercise_5.ui.membergrade.MemberGradeDao
+import com.example.exercise_5.ui.party.Party
+import com.example.exercise_5.ui.party.PartyDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Member::class, MemberInfo::class, MemberGrade::class], version = 6)
+@Database(entities = [Member::class, MemberInfo::class, MemberGrade::class, Party::class], version = 8)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun parliamentMemberDao(): MemberDao
-    abstract fun parliamentMemberInfoDao(): MemberInfoDao
-    abstract fun parliamentMemberGradeDao(): MemberGradeDao
+    abstract fun memberDao(): MemberDao
+    abstract fun memberInfoDao(): MemberInfoDao
+    abstract fun memberGradeDao(): MemberGradeDao
+    abstract fun partyDao(): PartyDao
 
     companion object {
         @Volatile
@@ -50,7 +53,7 @@ abstract class AppDatabase : RoomDatabase() {
             // comment out the following line.
             INSTANCE?.let { database ->
                 scope.launch(Dispatchers.IO) {
-                    database.populateDatabase(database.parliamentMemberDao())
+                    database.populateDatabase(database.memberDao())
                 }
             }
         }

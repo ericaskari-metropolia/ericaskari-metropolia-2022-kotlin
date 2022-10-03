@@ -13,4 +13,5 @@
     <string name="nickname">Nickname</string>
     <string name="view_all_parliament_members">View All Parliament members</string>
     <string name="view_parties">View Parties</string>
+    <string name="seat_count">Seat count</string>
 </resources>
