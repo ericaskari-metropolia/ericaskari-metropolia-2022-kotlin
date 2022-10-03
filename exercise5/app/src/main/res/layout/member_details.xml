@@ -206,7 +206,7 @@
 
 
                         <include
-                            android:id="@+id/new_rate"
+                            android:id="@+id/new_rating"
                             layout="@layout/rate_new"
                             android:layout_marginBottom="10dp"
                             android:layout_width="match_parent"

@@ -1,23 +1,23 @@
-package com.example.exercise_5.ui.components
+package com.example.exercise_5.ui.newgrade
 
 import android.view.View
 import androidx.lifecycle.*
 
 class NewGradeViewModel : ViewModel() {
-    val ratingValue: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
+    val gradingValue: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
 
 
     init {
         println("NewRatingViewModel INSTANCE CREATED")
     }
 
-    fun updateRatingValue(value: Int) {
-        ratingValue.postValue(value)
+    fun updateGradingValue(value: Int) {
+        gradingValue.postValue(value)
     }
 
     fun onRateButtonClick(v: View?, index: Int) {
         //  TODO: Check if User already rated and update the current value if it exists.
-        updateRatingValue(index)
+        updateGradingValue(index)
     }
 
 }

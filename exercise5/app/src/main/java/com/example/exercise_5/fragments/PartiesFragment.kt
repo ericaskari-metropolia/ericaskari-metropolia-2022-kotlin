@@ -28,10 +28,6 @@ class PartiesFragment : Fragment(), PartyViewHolder.Companion.OnListItemClickLis
         super.onViewCreated(view, savedInstanceState)
 
         partyViewModel.getAll.observe(viewLifecycleOwner) { items ->
-            for (item in items) {
-                println("partyViewModel.getAll: ${item.seatCount} ${item.name}")
-            }
-            
             this.binding.listRecycleView.layoutManager = LinearLayoutManager(requireContext())
             this.binding.listRecycleView.adapter = PartyAdapter(items, this)
         }

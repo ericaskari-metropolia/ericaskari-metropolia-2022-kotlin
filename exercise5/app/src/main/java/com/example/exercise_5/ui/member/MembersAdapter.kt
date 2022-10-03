@@ -38,14 +38,7 @@ class MemberViewHolder(val binding: MemberListItemBinding) : RecyclerView.ViewHo
     lateinit var listener: OnParliamentMemberClickListener
     lateinit var index: Number
 
-    /**
-     * Here we update UI values.
-     */
-    fun setViewHolderData(
-        member: Member,
-        listener: OnParliamentMemberClickListener,
-        index: Number
-    ) {
+    fun setViewHolderData(member: Member, listener: OnParliamentMemberClickListener, index: Number) {
         binding.member = member
         this.listener = listener
         this.index = index

@@ -1,4 +1,4 @@
-package com.example.exercise_5.ui.components
+package com.example.exercise_5.ui.newcomment
 
 import androidx.lifecycle.*
 
