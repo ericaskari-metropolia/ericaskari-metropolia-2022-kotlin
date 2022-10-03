@@ -6,6 +6,5 @@ import android.view.View
  * @author Mohammad Askari
  */
 interface NewCommentClickListener {
-    fun onCommentValueTextChange(value: String)
     fun onCreateCommentButtonClicked(v: View?)
 }

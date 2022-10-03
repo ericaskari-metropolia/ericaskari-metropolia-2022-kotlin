@@ -1,0 +1,24 @@
+package com.example.exercise_5.datasource
+
+import androidx.room.TypeConverter
+import java.util.*
+
+
+/**
+ * @author Mohammad Askari
+ */
+class Converters {
+    @TypeConverter
+    fun fromTimestamp(value: Long?): Date? {
+        if (value == null) {
+            return null
+        }
+
+        return Date(value)
+    }
+
+    @TypeConverter
+    fun dateToTimestamp(date: Date?): Long? {
+        return date?.time
+    }
+}

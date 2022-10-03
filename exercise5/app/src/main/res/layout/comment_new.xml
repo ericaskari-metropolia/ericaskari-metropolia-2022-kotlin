@@ -29,7 +29,6 @@
                     android:id="@+id/comment_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:onTextChanged="@{(newValue, i, j, k)-> clickListener.onCommentValueTextChange(newValue.toString())}"
                     android:inputType="textPersonName" />
 
                 <LinearLayout

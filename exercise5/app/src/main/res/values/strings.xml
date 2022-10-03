@@ -15,4 +15,6 @@
     <string name="view_parties">View Parties</string>
     <string name="seat_count">Seat count</string>
     <string name="name">Name</string>
+    <string name="writernickname">writerNickname</string>
+    <string name="commentblock">commentBlock</string>
 </resources>

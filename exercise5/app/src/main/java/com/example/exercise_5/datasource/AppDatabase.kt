@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.exercise_5.ui.member.Member
 import com.example.exercise_5.ui.member.MemberDao
@@ -21,6 +22,7 @@ import kotlinx.coroutines.launch
  * @author Mohammad Askari
  */
 @Database(entities = [Member::class, MemberInfo::class, MemberGrade::class, Party::class], version = 8)
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun memberDao(): MemberDao
     abstract fun memberInfoDao(): MemberInfoDao

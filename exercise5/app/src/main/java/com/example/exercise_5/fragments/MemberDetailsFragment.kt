@@ -140,11 +140,6 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
         }
     }
 
-
-    override fun onCommentValueTextChange(value: String) {
-        newCommentViewModel.updateCommentValue(value)
-    }
-
     override fun onCreateCommentButtonClicked(v: View?) {
     }
 
