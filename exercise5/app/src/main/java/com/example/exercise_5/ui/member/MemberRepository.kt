@@ -1,8 +1,10 @@
 package com.example.exercise_5.ui.member
 
 import com.example.exercise_5.network.ApiService
-import com.example.exercise_5.ui.membergrade.MemberGrade
 
+/**
+ * @author Mohammad Askari
+ */
 class MemberRepository(private val api: ApiService, private val dao: MemberDao) {
     fun getAll() = dao.getAll()
 

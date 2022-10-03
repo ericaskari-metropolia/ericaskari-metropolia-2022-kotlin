@@ -3,6 +3,9 @@ package com.example.exercise_5.ui.party
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
+/**
+ * @author Mohammad Askari
+ */
 @Dao
 interface PartyDao {
     @Query("SELECT * FROM Party")

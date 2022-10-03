@@ -9,9 +9,10 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="login">Login</string>
+    <string name="login">Login as Guest</string>
     <string name="nickname">Nickname</string>
     <string name="view_all_parliament_members">View All Parliament members</string>
     <string name="view_parties">View Parties</string>
     <string name="seat_count">Seat count</string>
+    <string name="name">Name</string>
 </resources>

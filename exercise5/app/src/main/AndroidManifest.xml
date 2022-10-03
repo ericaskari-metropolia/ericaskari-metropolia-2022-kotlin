@@ -4,6 +4,7 @@
     package="com.example.exercise_5">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".application.ExerciseApplication"
         android:allowBackup="true"

@@ -11,12 +11,24 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
 
+/**
+ * @author Mohammad Askari
+ */
 class ExerciseApplication : Application() {
-    // No need to cancel this scope as it'll be torn down with the process
+    private var _username: String? = null
+
+    fun login(username: String) {
+        if (_username == null) {
+            this._username = username
+        } else {
+            //  Say logout first.
+        }
+    }
+
+    fun username(): String = this._username!!
+
     private val applicationScope = CoroutineScope(SupervisorJob())
 
-    // Using by lazy so the database and the repository are only created when they're needed
-    // rather than when the application starts
     private val appDatabase by lazy { AppDatabase.getInstance(this, applicationScope) }
 
     val memberRepository by lazy { MemberRepository(ApiClient.apiService, appDatabase.memberDao()) }

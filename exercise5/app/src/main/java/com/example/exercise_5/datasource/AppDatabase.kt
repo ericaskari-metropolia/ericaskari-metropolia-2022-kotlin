@@ -17,6 +17,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/**
+ * @author Mohammad Askari
+ */
 @Database(entities = [Member::class, MemberInfo::class, MemberGrade::class, Party::class], version = 8)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun memberDao(): MemberDao
@@ -31,8 +34,8 @@ abstract class AppDatabase : RoomDatabase() {
         fun getInstance(context: Context, scope: CoroutineScope): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "exercise-5-db")
-                    .fallbackToDestructiveMigration()           // Wipes and rebuilds instead of migrating if no Migration object.
-                    .addCallback(AppDatabaseCallback(scope))    // Migration is not part of this codelab.
+                    .fallbackToDestructiveMigration()
+                    .addCallback(AppDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance
 
@@ -49,8 +52,8 @@ abstract class AppDatabase : RoomDatabase() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             println("AppDatabaseCallback onCreate")
             super.onCreate(db)
-            // If you want to keep the data through app restarts,
-            // comment out the following line.
+
+            // If you want to keep the data through app restarts, comment out the following line.
             INSTANCE?.let { database ->
                 scope.launch(Dispatchers.IO) {
                     database.populateDatabase(database.memberDao())

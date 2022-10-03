@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.exercise_5.databinding.PartyListItemBinding
 
 
+/**
+ * @author Mohammad Askari
+ */
 class PartyAdapter(
     private val partyList: List<Party>,
     private val clickListener: PartyViewHolder.Companion.OnListItemClickListener
@@ -23,12 +26,13 @@ class PartyAdapter(
     }
 
     override fun onBindViewHolder(holder: PartyViewHolder, position: Int) {
-        partyList.forEach { println("onBindViewHolder ${it.name} ${it.seatCount}") }
         holder.setViewHolderData(partyList[position], this.clickListener, position);
-
     }
 }
 
+/**
+ * @author Mohammad Askari
+ */
 class PartyViewHolder(val binding: PartyListItemBinding) :
     RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 

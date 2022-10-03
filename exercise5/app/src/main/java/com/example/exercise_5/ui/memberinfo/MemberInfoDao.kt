@@ -3,6 +3,9 @@ package com.example.exercise_5.ui.memberinfo
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
+/**
+ * @author Mohammad Askari
+ */
 @Dao
 interface MemberInfoDao {
     @Query("SELECT * FROM MemberInfo")

@@ -7,6 +7,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/**
+ * @author Mohammad Askari
+ */
 class PartyViewModel(private val repository: PartyRepository) : ViewModel() {
 
     val getAll: LiveData<List<Party>> = repository.getAll()
@@ -14,11 +17,15 @@ class PartyViewModel(private val repository: PartyRepository) : ViewModel() {
     fun populate() {
         viewModelScope.launch(Dispatchers.IO) {
             val members = repository.fetch()
+            repository.deleteAll()
             repository.insert(*members.toTypedArray())
         }
     }
 }
 
+/**
+ * @author Mohammad Askari
+ */
 class PartyViewModelFactory(private val repository: PartyRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(PartyViewModel::class.java)) {

@@ -7,6 +7,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/**
+ * @author Mohammad Askari
+ */
 class MemberInfoViewModel(private val repository: MemberInfoRepository) : ViewModel() {
     val getAll: LiveData<List<MemberInfo>> = repository.getAll()
 
@@ -18,6 +21,9 @@ class MemberInfoViewModel(private val repository: MemberInfoRepository) : ViewMo
     }
 }
 
+/**
+ * @author Mohammad Askari
+ */
 class MemberInfoViewModelFactory(private val repository: MemberInfoRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MemberInfoViewModel::class.java)) {

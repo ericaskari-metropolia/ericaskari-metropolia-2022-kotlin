@@ -5,6 +5,9 @@ import com.example.exercise_5.ui.membergrade.MemberGrade
 import com.example.exercise_5.ui.memberinfo.MemberInfo
 import retrofit2.http.GET
 
+/**
+ * @author Mohammad Askari
+ */
 interface ApiService {
     @GET("seating.json")
     suspend fun getMemberList(): List<Member>

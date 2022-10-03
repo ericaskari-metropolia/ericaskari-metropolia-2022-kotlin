@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.exercise_5.application.ExerciseApplication
@@ -27,7 +28,7 @@ class PartiesFragment : Fragment(), PartyViewHolder.Companion.OnListItemClickLis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        partyViewModel.getAll.observe(viewLifecycleOwner) { items ->
+        partyViewModel.getAll.distinctUntilChanged().observe(viewLifecycleOwner) { items ->
             this.binding.listRecycleView.layoutManager = LinearLayoutManager(requireContext())
             this.binding.listRecycleView.adapter = PartyAdapter(items, this)
         }

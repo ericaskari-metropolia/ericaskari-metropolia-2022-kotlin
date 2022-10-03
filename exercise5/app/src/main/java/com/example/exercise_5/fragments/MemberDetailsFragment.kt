@@ -10,11 +10,14 @@ import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.exercise_5.R
 import com.example.exercise_5.application.ExerciseApplication
 import com.example.exercise_5.databinding.MemberDetailsBinding
+import com.example.exercise_5.datasource.AppDatabase
+import com.example.exercise_5.network.ImageApiClient
 import com.example.exercise_5.ui.member.MemberViewModel
 import com.example.exercise_5.ui.member.MemberViewModelFactory
 import com.example.exercise_5.ui.membergrade.MemberGradeViewModel
@@ -28,6 +31,9 @@ import com.example.exercise_5.ui.newgrade.NewGradeViewModel
 import com.example.exercise_5.ui.newgrade.NewGradeClickListener
 import com.example.exercise_5.ui.newgrade.NewRatingViewModelFactory
 
+/**
+ * @author Mohammad Askari
+ */
 class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClickListener {
     lateinit var binding: MemberDetailsBinding
     private val args: MemberDetailsFragmentArgs by navArgs()
@@ -35,9 +41,28 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
     private val memberViewModel: MemberViewModel by viewModels { MemberViewModelFactory((requireActivity().application as ExerciseApplication).memberRepository) }
     private val memberInfoViewModel: MemberInfoViewModel by viewModels { MemberInfoViewModelFactory((requireActivity().application as ExerciseApplication).memberInfoRepository) }
     private val memberGradeViewModel: MemberGradeViewModel by viewModels { MemberGradeViewModelFactory((requireActivity().application as ExerciseApplication).memberGradeRepository) }
-    private val newGradeViewModel: NewGradeViewModel by viewModels { NewRatingViewModelFactory() }
+    private val newGradeViewModel: NewGradeViewModel by viewModels { NewRatingViewModelFactory((requireActivity().application as ExerciseApplication).memberGradeRepository) }
     private val newCommentViewModel: NewCommentViewModel by viewModels { NewCommentViewModelFactory() }
 
+    private val currentGrading by lazy {
+        listOf(
+            binding.currentGrading.rateOne,
+            binding.currentGrading.rateTwo,
+            binding.currentGrading.rateThree,
+            binding.currentGrading.rateFour,
+            binding.currentGrading.rateFive,
+        )
+    }
+
+    private val newGrading by lazy {
+        listOf(
+            binding.newGrading.rateOne,
+            binding.newGrading.rateTwo,
+            binding.newGrading.rateThree,
+            binding.newGrading.rateFour,
+            binding.newGrading.rateFive,
+        )
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = MemberDetailsBinding.inflate(inflater, container, false)
@@ -47,67 +72,68 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //  View bindings
-        binding.newRating.clickListener = this
+        binding.newGrading.clickListener = this
         binding.newComment.clickListener = this
 
-        memberViewModel.getAll.observe(viewLifecycleOwner) { members ->
+        memberViewModel.getAll.distinctUntilChanged().observe(viewLifecycleOwner) { members ->
             binding.member = members[args.userId]
         }
 
-        memberInfoViewModel.getAll.observe(viewLifecycleOwner) { memberInfoList ->
+        memberInfoViewModel.getAll.distinctUntilChanged().observe(viewLifecycleOwner) { memberInfoList ->
             binding.memberInfo = memberInfoList[args.userId]
         }
 
-        newCommentViewModel.commentValue.observe(viewLifecycleOwner) { commentValue ->
+        newCommentViewModel.commentValue.distinctUntilChanged().observe(viewLifecycleOwner) { commentValue ->
             if (binding.newComment.commentText.text.toString() != commentValue) {
                 binding.newComment.commentText.setText(commentValue)
             }
         }
 
-        val currentRating = listOf(
-            binding.currentRating.rateOne,
-            binding.currentRating.rateTwo,
-            binding.currentRating.rateThree,
-            binding.currentRating.rateFour,
-            binding.currentRating.rateFive,
-        )
-
-        memberGradeViewModel.getGradeValue(args.userId).observe(viewLifecycleOwner) { gradeValue ->
-            binding.currentRating.currentGrade.text = "$gradeValue"
+        memberGradeViewModel.getGradeValue(args.userId).distinctUntilChanged().observe(viewLifecycleOwner) { gradeValue ->
+            binding.currentGrading.currentGrade.text = "$gradeValue"
         }
 
-        memberGradeViewModel.getGradeCount(args.userId).observe(viewLifecycleOwner) { count ->
+        memberGradeViewModel.getGradeCount(args.userId).distinctUntilChanged().observe(viewLifecycleOwner) { count ->
             @SuppressLint("SetTextI18n")
-            binding.currentRating.gradeCount.text = "($count)"
+            binding.currentGrading.gradeCount.text = "($count)"
         }
 
-        memberGradeViewModel.getRoundedGrade(args.userId).observe(viewLifecycleOwner) { rounded ->
+        memberGradeViewModel.getRoundedGrade(args.userId).distinctUntilChanged().observe(viewLifecycleOwner) { rounded ->
             for (i in 0..4) {
                 val resource = if ((i + 1) <= rounded) R.drawable.start_filled else R.drawable.star_empty
-                currentRating[i].setImageResource(resource)
+                currentGrading[i].setImageResource(resource)
             }
         }
 
-        val newRating = listOf(
-            binding.newRating.rateOne,
-            binding.newRating.rateTwo,
-            binding.newRating.rateThree,
-            binding.newRating.rateFour,
-            binding.newRating.rateFive,
-        )
-
-        newGradeViewModel.gradingValue.observe(viewLifecycleOwner) { gradeValue ->
-            for (i in 0 until newRating.count()) {
-                newRating[i].setImageResource(if (i <= (gradeValue - 1)) R.drawable.start_filled else R.drawable.star_empty)
+        newGradeViewModel.currentGrade((requireActivity().application as ExerciseApplication).username(), args.userId)
+            .observe(viewLifecycleOwner) { currentGrade ->
+                println("currentGrade: $currentGrade")
+                if (currentGrade != null) {
+                    for (i in 0 until newGrading.count()) {
+                        newGrading[i].setImageResource(if (i <= (currentGrade - 1)) R.drawable.start_filled else R.drawable.star_empty)
+                    }
+                }
             }
-        }
+
+        newGradeViewModel.isGraded((requireActivity().application as ExerciseApplication).username(), args.userId)
+            .observe(viewLifecycleOwner) { isGraded ->
+                binding.newGrading.edit.visibility = if (isGraded) View.VISIBLE else View.INVISIBLE
+                for (imageButton in newGrading) {
+                    imageButton.isEnabled = !isGraded
+                }
+            }
+
     }
 
-    override fun onRateButtonClick(v: View?, index: Int) {
-        newGradeViewModel.updateGradingValue(index)
-        memberGradeViewModel.createNewRating(args.userId, index)
-        Toast.makeText(requireContext(), "Graded!", Toast.LENGTH_SHORT).show()
+    override fun onGradeButtonClick(v: View?, index: Int) {
+        newGradeViewModel.createNewGrade((requireActivity().application as ExerciseApplication).username(), args.userId, index)
+    }
+
+    override fun onEditGradeButtonClick(v: View?) {
+        binding.newGrading.edit.visibility = View.INVISIBLE
+        for (imageButton in newGrading) {
+            imageButton.isEnabled = true
+        }
     }
 
     override fun onCommentValueTextChange(value: String) {
@@ -120,9 +146,9 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
     companion object {
         @JvmStatic
         @BindingAdapter("loadDetailsPageImage")
-        fun loadDetailsPageImage(view: ImageView, profileImage: String?) {
+        fun loadDetailsPageImage(view: ImageView, imageId: String?) {
             Glide.with(view.context)
-                .load("https://avoindata.eduskunta.fi/$profileImage")
+                .load(ImageApiClient.imageUrlBuilder(imageId))
                 .placeholder(R.drawable.white)
                 .fallback(R.drawable.user)
                 .error(R.drawable.user)

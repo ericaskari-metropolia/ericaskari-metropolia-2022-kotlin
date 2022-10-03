@@ -2,6 +2,9 @@ package com.example.exercise_5.ui.party
 
 import com.example.exercise_5.network.ApiService
 
+/**
+ * @author Mohammad Askari
+ */
 class PartyRepository(private val apiService: ApiService, private val dao: PartyDao) {
     fun getAll() = dao.getAll()
 

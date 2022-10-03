@@ -2,6 +2,9 @@ package com.example.exercise_5.ui.newcomment
 
 import androidx.lifecycle.*
 
+/**
+ * @author Mohammad Askari
+ */
 class NewCommentViewModel : ViewModel() {
     val commentValue: MutableLiveData<String> by lazy { MutableLiveData<String>() }
 
@@ -17,6 +20,9 @@ class NewCommentViewModel : ViewModel() {
 
 }
 
+/**
+ * @author Mohammad Askari
+ */
 class NewCommentViewModelFactory() : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(NewCommentViewModel::class.java)) {

@@ -7,8 +7,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.exercise_5.application.ExerciseApplication
 import com.example.exercise_5.databinding.LoginBinding
 
+/**
+ * @author Mohammad Askari
+ */
 class LoginFragment : Fragment() {
     lateinit var binding: LoginBinding
 
@@ -33,6 +37,7 @@ class LoginFragment : Fragment() {
             return
         }
 
+        (requireActivity().application as ExerciseApplication).login(nickname)
         Toast.makeText(requireContext(), "Welcome $nickname", Toast.LENGTH_SHORT).show()
 
         val action = LoginFragmentDirections.toHomePageFragmentAction()

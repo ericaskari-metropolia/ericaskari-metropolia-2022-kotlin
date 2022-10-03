@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.exercise_5.databinding.MemberListItemBinding
 
 
+/**
+ * @author Mohammad Askari
+ */
 class MembersAdapter(
     private val memberList: List<Member>,
     private val onParliamentClickListener: MemberViewHolder.Companion.OnParliamentMemberClickListener

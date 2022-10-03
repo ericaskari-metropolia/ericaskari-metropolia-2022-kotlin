@@ -8,6 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.exercise_5.databinding.DashboardBinding
 
+/**
+ * @author Mohammad Askari
+ */
 class DashboardFragment : Fragment() {
     lateinit var binding: DashboardBinding
 

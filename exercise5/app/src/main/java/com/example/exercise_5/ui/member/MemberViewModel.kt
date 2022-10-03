@@ -7,6 +7,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/**
+ * @author Mohammad Askari
+ */
 class MemberViewModel(private val repository: MemberRepository) : ViewModel() {
     val getAll: LiveData<List<Member>> = repository.getAll()
 
