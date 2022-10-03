@@ -14,14 +14,11 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.exercise_5.R
-import com.example.exercise_5.ui.member.MemberViewHolder
-import com.example.exercise_5.ui.member.MembersAdapter
 import com.example.exercise_5.application.ExerciseApplication
 import com.example.exercise_5.databinding.MemberListBinding
 import com.example.exercise_5.databinding.MemberListItemBinding
 import com.example.exercise_5.network.ImageApiClient
-import com.example.exercise_5.ui.member.MemberViewModel
-import com.example.exercise_5.ui.member.MemberViewModelFactory
+import com.example.exercise_5.ui.member.*
 import com.example.exercise_5.ui.memberinfo.MemberInfoViewModel
 import com.example.exercise_5.ui.memberinfo.MemberInfoViewModelFactory
 
@@ -43,22 +40,22 @@ class MemberListPageFragment : Fragment(), MemberViewHolder.Companion.OnParliame
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        memberViewModel.getAll.distinctUntilChanged().observe(viewLifecycleOwner) { members ->
+        memberViewModel.getAllByPartyName(args.partyName).distinctUntilChanged().observe(viewLifecycleOwner) { members ->
             this.binding.listRecycleView.layoutManager = LinearLayoutManager(requireContext())
-            this.binding.listRecycleView.adapter = MembersAdapter(members.filter { it.party == args.partyName }, this)
+            this.binding.listRecycleView.adapter = MembersAdapter(members, this)
         }
 
         memberViewModel.populate()
         memberInfoViewModel.populate()
     }
 
-    override fun onParliamentMemberClick(v: View?, index: Number) {
-        val action = MemberListPageFragmentDirections.toParliamentMemberDetailsFragmentAction(index.toInt())
+    override fun onParliamentMemberClick(v: View?, member: Member) {
+        val action = MemberListPageFragmentDirections.toParliamentMemberDetailsFragmentAction(member.hetekaId)
         findNavController().navigate(action)
     }
 }
 
-class MemberListItemFragment() : Fragment() {
+class MemberListItemFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return MemberListItemBinding.inflate(inflater, container, false).root
     }

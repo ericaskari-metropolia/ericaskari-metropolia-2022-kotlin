@@ -49,12 +49,12 @@ class MemberViewHolder(val binding: MemberListItemBinding) : RecyclerView.ViewHo
 
 
     override fun onClick(v: View?) {
-        this.listener.onParliamentMemberClick(v, this.index)
+        this.listener.onParliamentMemberClick(v, binding.member!!)
     }
 
     companion object {
         interface OnParliamentMemberClickListener {
-            fun onParliamentMemberClick(v: View?, index: Number)
+            fun onParliamentMemberClick(v: View?, member: Member)
         }
     }
 }

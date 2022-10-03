@@ -17,4 +17,14 @@
     <string name="name">Name</string>
     <string name="writernickname">writerNickname</string>
     <string name="commentblock">commentBlock</string>
+    <string name="comments">Comments</string>
+    <string name="add_a_comment">Add a comment</string>
+    <string name="grade_performance">Grade performance</string>
+    <string name="twitter">Twitter</string>
+    <string name="constituency">constituency</string>
+    <string name="performance">Performance</string>
+    <string name="seat_number">Seat number</string>
+    <string name="born_year">born year</string>
+    <string name="party">Party</string>
+    <string name="image">Image</string>
 </resources>

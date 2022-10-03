@@ -72,7 +72,7 @@
         android:label="Parliament member details"
         tools:layout="@layout/member_details">
         <argument
-            android:name="userId"
+            android:name="hetekaId"
             app:argType="integer" />
     </fragment>
 </navigation>

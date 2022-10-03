@@ -8,7 +8,9 @@ import com.example.exercise_5.network.ApiService
 class MemberRepository(private val api: ApiService, private val dao: MemberDao) {
     fun getAll() = dao.getAll()
 
-    fun deleteMultiple(hetekaIds: IntArray) = dao.deleteMultiple(hetekaIds)
+    fun getAllByPartyName(party: String) = dao.getAllByPartyName(party)
+
+    fun findOneByHetekaId(id: Int) = dao.findOneByHetekaId(id)
 
     fun insert(vararg items: Member) = dao.insertAll(*items)
 

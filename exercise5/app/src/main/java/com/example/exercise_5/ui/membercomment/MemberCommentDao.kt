@@ -12,7 +12,7 @@ interface MemberCommentDao {
     fun getAll(): LiveData<List<MemberComment>>
 
     @Query("SELECT * FROM MemberComment WHERE hetekaId IN (:hetekaIds)")
-    fun loadAllByMemberIds(hetekaIds: IntArray): LiveData<List<MemberComment>>
+    fun loadAllByHetekaIds(hetekaIds: IntArray): LiveData<List<MemberComment>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg users: MemberComment)

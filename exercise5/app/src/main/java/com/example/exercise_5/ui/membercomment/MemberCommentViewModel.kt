@@ -3,7 +3,6 @@ package com.example.exercise_5.ui.membercomment
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.math.RoundingMode
 
 /**
  * @author Mohammad Askari
@@ -11,7 +10,7 @@ import java.math.RoundingMode
 class MemberCommentViewModel(private val repository: MemberCommentRepository) : ViewModel() {
     val getAll: LiveData<List<MemberComment>> = repository.getAll()
 
-    fun loadAllByMemberId(userId: Int): LiveData<List<MemberComment>> = repository.loadAllByMemberId(userId)
+    fun loadAllByHetekaId(id: Int): LiveData<List<MemberComment>> = repository.loadAllByHetekaIds(id)
 
 
     fun populate() {

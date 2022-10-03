@@ -20,7 +20,6 @@ import com.example.exercise_5.databinding.MemberDetailsBinding
 import com.example.exercise_5.network.ImageApiClient
 import com.example.exercise_5.ui.member.MemberViewModel
 import com.example.exercise_5.ui.member.MemberViewModelFactory
-import com.example.exercise_5.ui.member.MembersAdapter
 import com.example.exercise_5.ui.membercomment.MemberCommentAdapter
 import com.example.exercise_5.ui.membercomment.MemberCommentViewHolder
 import com.example.exercise_5.ui.membercomment.MemberCommentViewModel
@@ -87,36 +86,36 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
         binding.newComment.clickListener = this
         binding.editGrade.setOnClickListener { this.onEditGradeButtonClick(it) }
 
-        memberViewModel.getAll.distinctUntilChanged().observe(viewLifecycleOwner) { members ->
-            binding.member = members[args.userId]
+        memberViewModel.findOneByHetekaId(args.hetekaId).distinctUntilChanged().observe(viewLifecycleOwner) { member ->
+            binding.member = member
         }
 
-        memberCommentViewModel.loadAllByMemberId(args.userId).distinctUntilChanged().observe(viewLifecycleOwner) { comments ->
+        memberCommentViewModel.loadAllByHetekaId(args.hetekaId).distinctUntilChanged().observe(viewLifecycleOwner) { comments ->
             this.binding.commentSection.listRecycleView.layoutManager = LinearLayoutManager(requireContext())
             this.binding.commentSection.listRecycleView.adapter = MemberCommentAdapter(comments, this)
         }
 
         memberInfoViewModel.getAll.distinctUntilChanged().observe(viewLifecycleOwner) { memberInfoList ->
-            binding.memberInfo = memberInfoList[args.userId]
+            binding.memberInfo = memberInfoList.find { it.hetekaId == args.hetekaId }
         }
 
-        memberGradeViewModel.getGradeValue(args.userId).distinctUntilChanged().observe(viewLifecycleOwner) { gradeValue ->
+        memberGradeViewModel.getGradeValue(args.hetekaId).distinctUntilChanged().observe(viewLifecycleOwner) { gradeValue ->
             binding.currentGrading.currentGrade.text = "$gradeValue"
         }
 
-        memberGradeViewModel.getGradeCount(args.userId).distinctUntilChanged().observe(viewLifecycleOwner) { count ->
+        memberGradeViewModel.getGradeCount(args.hetekaId).distinctUntilChanged().observe(viewLifecycleOwner) { count ->
             @SuppressLint("SetTextI18n")
             binding.currentGrading.gradeCount.text = "($count)"
         }
 
-        memberGradeViewModel.getRoundedGrade(args.userId).distinctUntilChanged().observe(viewLifecycleOwner) { rounded ->
+        memberGradeViewModel.getRoundedGrade(args.hetekaId).distinctUntilChanged().observe(viewLifecycleOwner) { rounded ->
             for (i in 0..4) {
                 val resource = if ((i + 1) <= rounded) R.drawable.start_filled else R.drawable.star_empty
                 currentGrading[i].setImageResource(resource)
             }
         }
 
-        newGradeViewModel.currentGrade(username, args.userId).observe(viewLifecycleOwner) { currentGrade ->
+        newGradeViewModel.currentGrade(username, args.hetekaId).observe(viewLifecycleOwner) { currentGrade ->
             if (currentGrade != null) {
                 for (i in 0 until newGrading.count()) {
                     newGrading[i].setImageResource(if (i <= (currentGrade - 1)) R.drawable.start_filled else R.drawable.star_empty)
@@ -124,7 +123,7 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
             }
         }
 
-        newGradeViewModel.isGraded(username, args.userId).observe(viewLifecycleOwner) { isGraded ->
+        newGradeViewModel.isGraded(username, args.hetekaId).observe(viewLifecycleOwner) { isGraded ->
             binding.editGrade.visibility = if (isGraded) View.VISIBLE else View.INVISIBLE
             for (imageButton in newGrading) {
                 imageButton.isEnabled = !isGraded
@@ -144,7 +143,7 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
     }
 
     override fun onGradeButtonClick(v: View?, index: Int) {
-        newGradeViewModel.createNewGrade(username, args.userId, index) {
+        newGradeViewModel.createNewGrade(username, args.hetekaId, index) {
             Toast.makeText(requireContext(), "Successfully graded!", Toast.LENGTH_SHORT).show()
         }
     }
@@ -154,7 +153,7 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
             return
         }
 
-        newCommentViewModel.createNewComment(username, args.userId, binding.newComment.commentText.text.toString()) {
+        newCommentViewModel.createNewComment(username, args.hetekaId, binding.newComment.commentText.text.toString()) {
             Toast.makeText(requireContext(), "Successfully commented!", Toast.LENGTH_SHORT).show()
             binding.newComment.commentText.setText("")
         }

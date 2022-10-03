@@ -13,6 +13,10 @@ import kotlinx.coroutines.launch
 class MemberViewModel(private val repository: MemberRepository) : ViewModel() {
     val getAll: LiveData<List<Member>> = repository.getAll()
 
+    fun getAllByPartyName(party: String): LiveData<List<Member>> = repository.getAllByPartyName(party)
+
+    fun findOneByHetekaId(id: Int): LiveData<Member?> = repository.findOneByHetekaId(id)
+
     fun populate() {
         viewModelScope.launch(Dispatchers.IO) {
             val members = repository.fetch()

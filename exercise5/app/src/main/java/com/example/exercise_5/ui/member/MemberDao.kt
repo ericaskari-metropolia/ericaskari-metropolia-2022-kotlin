@@ -11,14 +11,11 @@ interface MemberDao {
     @Query("SELECT * FROM Member")
     fun getAll(): LiveData<List<Member>>
 
-    @Query("SELECT * FROM Member WHERE hetekaId IN (:hetekaIds)")
-    fun loadAllByIds(hetekaIds: IntArray): List<Member>
+    @Query("SELECT * FROM Member WHERE party = :party")
+    fun getAllByPartyName(party: String): LiveData<List<Member>>
 
-    @Query(
-        "SELECT * FROM Member WHERE firstname LIKE :first AND " +
-                "lastname LIKE :last LIMIT 1"
-    )
-    fun findByName(first: String, last: String): Member
+    @Query("SELECT * FROM Member WHERE hetekaId = :hetekaId")
+    fun findOneByHetekaId(hetekaId: Int): LiveData<Member?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg users: Member)
