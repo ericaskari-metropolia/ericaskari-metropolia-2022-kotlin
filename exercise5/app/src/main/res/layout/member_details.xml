@@ -7,11 +7,11 @@
 
         <variable
             name="member"
-            type="com.example.exercise_5.ui.parliamentMember.ParliamentMember" />
+            type="com.example.exercise_5.ui.member.Member" />
 
         <variable
             name="memberInfo"
-            type="com.example.exercise_5.ui.parliamentMemberInfo.ParliamentMemberInfo" />
+            type="com.example.exercise_5.ui.memberinfo.MemberInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -220,7 +220,7 @@
 
                         <include
                             android:id="@+id/new_comment"
-                            layout="@layout/new_comment"
+                            layout="@layout/comment_new"
                             android:layout_marginBottom="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />

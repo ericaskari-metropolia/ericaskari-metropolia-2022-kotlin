@@ -5,23 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.exercise_5.databinding.PartiesPageBinding
+import com.example.exercise_5.databinding.PartiesBinding
 
-class PartiesPageFragment : Fragment() {
-    lateinit var binding: PartiesPageBinding
+class PartiesFragment : Fragment() {
+    lateinit var binding: PartiesBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = PartiesPageBinding.inflate(inflater, container, false)
+        binding = PartiesBinding.inflate(inflater, container, false)
         return binding.root;
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
     }
 }

@@ -5,21 +5,21 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.exercise_5.ui.parliamentMember.ParliamentMember
-import com.example.exercise_5.ui.parliamentMember.ParliamentMemberDao
-import com.example.exercise_5.ui.parliamentMemberInfo.ParliamentMemberInfo
-import com.example.exercise_5.ui.parliamentMemberInfo.ParliamentMemberInfoDao
-import com.example.exercise_5.ui.parliamentMemberGrade.ParliamentMemberGrade
-import com.example.exercise_5.ui.parliamentMemberGrade.ParliamentMemberGradeDao
+import com.example.exercise_5.ui.member.Member
+import com.example.exercise_5.ui.member.MemberDao
+import com.example.exercise_5.ui.memberinfo.MemberInfo
+import com.example.exercise_5.ui.memberinfo.MemberInfoDao
+import com.example.exercise_5.ui.membergrade.MemberGrade
+import com.example.exercise_5.ui.membergrade.MemberGradeDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [ParliamentMember::class, ParliamentMemberInfo::class, ParliamentMemberGrade::class], version = 6)
+@Database(entities = [Member::class, MemberInfo::class, MemberGrade::class], version = 6)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun parliamentMemberDao(): ParliamentMemberDao
-    abstract fun parliamentMemberInfoDao(): ParliamentMemberInfoDao
-    abstract fun parliamentMemberGradeDao(): ParliamentMemberGradeDao
+    abstract fun parliamentMemberDao(): MemberDao
+    abstract fun parliamentMemberInfoDao(): MemberInfoDao
+    abstract fun parliamentMemberGradeDao(): MemberGradeDao
 
     companion object {
         @Volatile
@@ -57,7 +57,7 @@ abstract class AppDatabase : RoomDatabase() {
     }
 
     @Suppress("RedundantSuspendModifier")
-    suspend fun populateDatabase(parliamentMemberDao: ParliamentMemberDao) {
+    suspend fun populateDatabase(memberDao: MemberDao) {
         println("one time populating the database")
     }
 

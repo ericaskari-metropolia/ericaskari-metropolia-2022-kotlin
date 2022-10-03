@@ -13,23 +13,23 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.exercise_5.R
 import com.example.exercise_5.application.ExerciseApplication
-import com.example.exercise_5.databinding.ParliamentMemberDetailsBinding
+import com.example.exercise_5.databinding.MemberDetailsBinding
 import com.example.exercise_5.ui.components.*
-import com.example.exercise_5.ui.parliamentMember.ParliamentMemberViewModel
-import com.example.exercise_5.ui.parliamentMember.ParliamentMembersViewModelFactory
-import com.example.exercise_5.ui.parliamentMemberGrade.ParliamentMemberGradeViewModel
-import com.example.exercise_5.ui.parliamentMemberGrade.ParliamentMemberGradeViewModelFactory
-import com.example.exercise_5.ui.parliamentMemberInfo.ParliamentMemberInfoViewModel
-import com.example.exercise_5.ui.parliamentMemberInfo.ParliamentMemberInfoViewModelFactory
+import com.example.exercise_5.ui.member.MemberViewModel
+import com.example.exercise_5.ui.member.MemberViewModelFactory
+import com.example.exercise_5.ui.membergrade.MemberGradeViewModel
+import com.example.exercise_5.ui.membergrade.MemberGradeViewModelFactory
+import com.example.exercise_5.ui.memberinfo.MemberInfoViewModel
+import com.example.exercise_5.ui.memberinfo.MemberInfoViewModelFactory
 import java.math.RoundingMode
 
-class ParliamentMemberDetailsFragment : Fragment(), NewRateClickListener, NewCommentClickListener {
-    lateinit var binding: ParliamentMemberDetailsBinding
-    private val args: ParliamentMemberDetailsFragmentArgs by navArgs()
+class MemberDetailsFragment : Fragment(), NewRateClickListener, NewCommentClickListener {
+    lateinit var binding: MemberDetailsBinding
+    private val args: MemberDetailsFragmentArgs by navArgs()
 
-    private val memberViewModel: ParliamentMemberViewModel by viewModels { ParliamentMembersViewModelFactory((requireActivity().application as ExerciseApplication).parliamentMemberRepository) }
-    private val memberInfoViewModel: ParliamentMemberInfoViewModel by viewModels { ParliamentMemberInfoViewModelFactory((requireActivity().application as ExerciseApplication).parliamentMemberInfoRepository) }
-    private val gradeViewModel: ParliamentMemberGradeViewModel by viewModels { ParliamentMemberGradeViewModelFactory((requireActivity().application as ExerciseApplication).parliamentMemberGradeRepository) }
+    private val memberViewModel: MemberViewModel by viewModels { MemberViewModelFactory((requireActivity().application as ExerciseApplication).memberRepository) }
+    private val memberInfoViewModel: MemberInfoViewModel by viewModels { MemberInfoViewModelFactory((requireActivity().application as ExerciseApplication).memberInfoRepository) }
+    private val gradeViewModel: MemberGradeViewModel by viewModels { MemberGradeViewModelFactory((requireActivity().application as ExerciseApplication).memberGradeRepository) }
     private val newGradeViewModel: NewGradeViewModel by viewModels { NewRatingViewModelFactory() }
     private val newCommentViewModel: NewCommentViewModel by viewModels { NewCommentViewModelFactory() }
 
@@ -39,7 +39,7 @@ class ParliamentMemberDetailsFragment : Fragment(), NewRateClickListener, NewCom
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = ParliamentMemberDetailsBinding.inflate(inflater, container, false)
+        binding = MemberDetailsBinding.inflate(inflater, container, false)
         return binding.root;
     }
 

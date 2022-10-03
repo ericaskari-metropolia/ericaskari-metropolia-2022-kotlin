@@ -1,4 +1,4 @@
-package com.example.exercise_5.ui.parliamentMemberGrade
+package com.example.exercise_5.ui.membergrade
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -7,15 +7,15 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ParliamentMemberGradeViewModel(private val repository: ParliamentMemberGradeRepository) : ViewModel() {
+class MemberGradeViewModel(private val repository: MemberGradeRepository) : ViewModel() {
 
-    val getAll: LiveData<List<ParliamentMemberGrade>> = repository.getAll()
+    val getAll: LiveData<List<MemberGrade>> = repository.getAll()
 
-    private fun insert(member: ParliamentMemberGrade) = viewModelScope.launch(Dispatchers.IO) {
+    private fun insert(member: MemberGrade) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(member)
     }
 
-    private fun insertAll(members: List<ParliamentMemberGrade>) = viewModelScope.launch(Dispatchers.IO) {
+    private fun insertAll(members: List<MemberGrade>) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(*members.toTypedArray())
     }
 
@@ -30,7 +30,7 @@ class ParliamentMemberGradeViewModel(private val repository: ParliamentMemberGra
     fun createNewRating(hetekaId: Int, rating: Int) {
         viewModelScope.launch {
             try {
-                val grade = ParliamentMemberGrade(0, hetekaId, "anonymous-user", rating)
+                val grade = MemberGrade(0, hetekaId, "anonymous-user", rating)
                 insert(grade)
             } catch (e: Exception) {
                 println(e)
@@ -49,11 +49,11 @@ class ParliamentMemberGradeViewModel(private val repository: ParliamentMemberGra
     }
 }
 
-class ParliamentMemberGradeViewModelFactory(private val repository: ParliamentMemberGradeRepository) : ViewModelProvider.Factory {
+class MemberGradeViewModelFactory(private val repository: MemberGradeRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ParliamentMemberGradeViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(MemberGradeViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return ParliamentMemberGradeViewModel(repository) as T
+            return MemberGradeViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

@@ -7,17 +7,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.exercise_5.databinding.LoginPageBinding
+import com.example.exercise_5.databinding.LoginBinding
 
-class LoginPageFragment : Fragment() {
-    lateinit var binding: LoginPageBinding
+class LoginFragment : Fragment() {
+    lateinit var binding: LoginBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = LoginPageBinding.inflate(inflater, container, false)
+        binding = LoginBinding.inflate(inflater, container, false)
         return binding.root;
     }
 
@@ -35,7 +35,7 @@ class LoginPageFragment : Fragment() {
 
         Toast.makeText(requireContext(), "Welcome $nickname", Toast.LENGTH_SHORT).show()
 
-        val action = LoginPageFragmentDirections.toHomePageFragmentAction()
+        val action = LoginFragmentDirections.toHomePageFragmentAction()
         findNavController().navigate(action)
     }
 

@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/LoginPageFragment"
-        android:name="com.example.exercise_5.fragments.LoginPageFragment"
+        android:name="com.example.exercise_5.fragments.LoginFragment"
         android:label="Login"
-        tools:layout="@layout/login_page">
+        tools:layout="@layout/login">
 
         <action
             android:id="@+id/to_HomePageFragment_action"
@@ -22,9 +22,9 @@
 
     <fragment
         android:id="@+id/HomePageFragment"
-        android:name="com.example.exercise_5.fragments.HomePageFragment"
+        android:name="com.example.exercise_5.fragments.DashboardFragment"
         android:label="Dashboard"
-        tools:layout="@layout/home_page">
+        tools:layout="@layout/dashboard">
         <action
             android:id="@+id/to_PartiesPageFragment_action"
             app:enterAnim="@anim/nav_default_enter_anim"
@@ -43,9 +43,9 @@
 
     <fragment
         android:id="@+id/PartiesPageFragment"
-        android:name="com.example.exercise_5.fragments.PartiesPageFragment"
+        android:name="com.example.exercise_5.fragments.PartiesFragment"
         android:label="Parties"
-        tools:layout="@layout/parties_page">
+        tools:layout="@layout/parties">
         <action
             android:id="@+id/to_ParliamentMemberListFragment_action"
             app:enterAnim="@anim/nav_default_enter_anim"
@@ -57,9 +57,9 @@
 
     <fragment
         android:id="@+id/ParliamentMemberListFragment"
-        android:name="com.example.exercise_5.fragments.ParliamentMemberListFragment"
+        android:name="com.example.exercise_5.fragments.MemberListPageFragment"
         android:label="Parliament member list"
-        tools:layout="@layout/parliament_member_list">
+        tools:layout="@layout/member_list">
 
         <argument
             android:name="partyId"
@@ -76,9 +76,9 @@
 
     <fragment
         android:id="@+id/ParliamentMemberDetailsFragment"
-        android:name="com.example.exercise_5.fragments.ParliamentMemberDetailsFragment"
+        android:name="com.example.exercise_5.fragments.MemberDetailsFragment"
         android:label="Parliament member details"
-        tools:layout="@layout/parliament_member_details">
+        tools:layout="@layout/member_details">
         <argument
             android:name="userId"
             app:argType="integer" />

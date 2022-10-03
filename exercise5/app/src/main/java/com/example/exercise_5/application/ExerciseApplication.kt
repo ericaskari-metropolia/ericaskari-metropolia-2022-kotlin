@@ -3,9 +3,9 @@ package com.example.exercise_5.application
 import android.app.Application
 import com.example.exercise_5.datasource.AppDatabase
 import com.example.exercise_5.network.ApiClient
-import com.example.exercise_5.ui.parliamentMember.ParliamentMemberRepository
-import com.example.exercise_5.ui.parliamentMemberInfo.ParliamentMemberInfoRepository
-import com.example.exercise_5.ui.parliamentMemberGrade.ParliamentMemberGradeRepository
+import com.example.exercise_5.ui.member.MemberRepository
+import com.example.exercise_5.ui.memberinfo.MemberInfoRepository
+import com.example.exercise_5.ui.membergrade.MemberGradeRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
@@ -18,7 +18,7 @@ class ExerciseApplication : Application() {
     // rather than when the application starts
     private val appDatabase by lazy { AppDatabase.getInstance(this, applicationScope) }
 
-    val parliamentMemberRepository by lazy { ParliamentMemberRepository(ApiClient.apiService, appDatabase.parliamentMemberDao()) }
-    val parliamentMemberInfoRepository by lazy { ParliamentMemberInfoRepository(appDatabase.parliamentMemberInfoDao()) }
-    val parliamentMemberGradeRepository by lazy { ParliamentMemberGradeRepository(appDatabase.parliamentMemberGradeDao()) }
+    val memberRepository by lazy { MemberRepository(ApiClient.apiService, appDatabase.parliamentMemberDao()) }
+    val memberInfoRepository by lazy { MemberInfoRepository(appDatabase.parliamentMemberInfoDao()) }
+    val memberGradeRepository by lazy { MemberGradeRepository(appDatabase.parliamentMemberGradeDao()) }
 }

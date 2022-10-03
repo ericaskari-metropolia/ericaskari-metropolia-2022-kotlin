@@ -1,11 +1,11 @@
-package com.example.exercise_5.ui.parliamentMember
+package com.example.exercise_5.ui.member
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class ParliamentMember(
+data class Member(
     @PrimaryKey val hetekaId: Int,
     @ColumnInfo val seatNumber: Int = 0,
     @ColumnInfo val lastname: String,

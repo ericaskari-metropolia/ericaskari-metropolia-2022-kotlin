@@ -1,4 +1,4 @@
-package com.example.exercise_5.ui.parliamentMemberInfo
+package com.example.exercise_5.ui.memberinfo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -8,11 +8,11 @@ import com.example.exercise_5.network.ParliamentApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ParliamentMemberInfoViewModel(private val repository: ParliamentMemberInfoRepository) : ViewModel() {
+class MemberInfoViewModel(private val repository: MemberInfoRepository) : ViewModel() {
 
-    val getAll: LiveData<List<ParliamentMemberInfo>> = repository.getAll()
+    val getAll: LiveData<List<MemberInfo>> = repository.getAll()
 
-    private fun insertAll(members: List<ParliamentMemberInfo>) = viewModelScope.launch(Dispatchers.IO) {
+    private fun insertAll(members: List<MemberInfo>) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(members)
     }
 
@@ -23,7 +23,7 @@ class ParliamentMemberInfoViewModel(private val repository: ParliamentMemberInfo
     fun populate() {
         viewModelScope.launch {
             try {
-                val response: List<ParliamentMemberInfo> = ParliamentApi.parliamentApiService.getParliamentMemberInfos()
+                val response: List<MemberInfo> = ParliamentApi.parliamentApiService.getParliamentMemberInfos()
                 insertAll(response)
                 println("Parliament member info have been added.")
             } catch (e: Exception) {
@@ -34,11 +34,11 @@ class ParliamentMemberInfoViewModel(private val repository: ParliamentMemberInfo
     }
 }
 
-class ParliamentMemberInfoViewModelFactory(private val repository: ParliamentMemberInfoRepository) : ViewModelProvider.Factory {
+class MemberInfoViewModelFactory(private val repository: MemberInfoRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ParliamentMemberInfoViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(MemberInfoViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return ParliamentMemberInfoViewModel(repository) as T
+            return MemberInfoViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

@@ -4,41 +4,41 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.exercise_5.databinding.ParliamentMemberListItemBinding
-import com.example.exercise_5.ui.parliamentMember.ParliamentMember
+import com.example.exercise_5.databinding.MemberListItemBinding
+import com.example.exercise_5.ui.member.Member
 
 
-class ParliamentMembersAdapter(
-    private val parliamentMemberList: List<ParliamentMember>,
-    private val onParliamentClickListener: ParliamentMemberViewHolder.Companion.OnParliamentMemberClickListener
-) : RecyclerView.Adapter<ParliamentMemberViewHolder>() {
+class MembersAdapter(
+    private val memberList: List<Member>,
+    private val onParliamentClickListener: MemberViewHolder.Companion.OnParliamentMemberClickListener
+) : RecyclerView.Adapter<MemberViewHolder>() {
 
     override fun getItemCount(): Int {
-        return this.parliamentMemberList.size
+        return this.memberList.size
     }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ParliamentMemberViewHolder {
+    ): MemberViewHolder {
         val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
 
-        val binding: ParliamentMemberListItemBinding =
-            ParliamentMemberListItemBinding.inflate(layoutInflater, parent, false)
+        val binding: MemberListItemBinding =
+            MemberListItemBinding.inflate(layoutInflater, parent, false)
 
-        return ParliamentMemberViewHolder(binding)
+        return MemberViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ParliamentMemberViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MemberViewHolder, position: Int) {
         holder.setViewHolderData(
-            parliamentMemberList[position],
+            memberList[position],
             this.onParliamentClickListener,
             position
         );
     }
 }
 
-class ParliamentMemberViewHolder(val binding: ParliamentMemberListItemBinding) :
+class MemberViewHolder(val binding: MemberListItemBinding) :
     RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
     init {
@@ -52,7 +52,7 @@ class ParliamentMemberViewHolder(val binding: ParliamentMemberListItemBinding) :
      * Here we update UI values.
      */
     fun setViewHolderData(
-        member: ParliamentMember,
+        member: Member,
         listener: OnParliamentMemberClickListener,
         index: Number
     ) {

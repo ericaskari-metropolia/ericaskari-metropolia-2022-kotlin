@@ -7,7 +7,7 @@
 
         <variable
             name="member"
-            type="com.example.exercise_5.ui.parliamentMember.ParliamentMember" />
+            type="com.example.exercise_5.ui.member.Member" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
