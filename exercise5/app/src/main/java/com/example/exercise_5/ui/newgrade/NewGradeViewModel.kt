@@ -36,16 +36,3 @@ class NewGradeViewModel(private val repository: MemberGradeRepository) : ViewMod
     }
 
 }
-
-/**
- * @author Mohammad Askari
- */
-class NewGradingViewModelFactory(private val repository: MemberGradeRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(NewGradeViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return NewGradeViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}

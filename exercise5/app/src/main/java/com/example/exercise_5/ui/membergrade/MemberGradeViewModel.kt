@@ -41,16 +41,3 @@ class MemberGradeViewModel(private val repository: MemberGradeRepository) : View
         }
     }
 }
-
-/**
- * @author Mohammad Askari
- */
-class MemberGradeViewModelFactory(private val repository: MemberGradeRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(MemberGradeViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return MemberGradeViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}

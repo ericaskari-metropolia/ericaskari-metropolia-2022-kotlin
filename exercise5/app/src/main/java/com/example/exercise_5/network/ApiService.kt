@@ -8,6 +8,7 @@ import retrofit2.http.GET
 
 /**
  * @author Mohammad Askari
+ * Available remote data sources
  */
 interface ApiService {
     @GET("seating.json")
@@ -16,7 +17,9 @@ interface ApiService {
     @GET("extras.json")
     suspend fun getMemberInfoList(): List<MemberInfo>
 
+    //  No remote data to fetch
     suspend fun getMemberGradeList(): List<MemberGrade> = listOf()
 
+    //  No remote data to fetch
     suspend fun getMemberCommentList(): List<MemberComment> = listOf()
 }

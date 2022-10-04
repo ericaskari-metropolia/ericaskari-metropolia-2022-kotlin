@@ -12,6 +12,8 @@ class PartyRepository(private val apiService: ApiService, private val dao: Party
 
     fun insert(vararg items: Party) = dao.insertAll(*items)
 
+    //  Since there is no endpoint for getting the parties
+    //  I used the member list and grouped them by party name
     suspend fun fetch(): List<Party> = apiService.getMemberList()
         .map { it.party }
         .toList()

@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.exercise_5.databinding.CommentListItemBinding
+import java.text.SimpleDateFormat
 
 
 /**
@@ -28,7 +29,7 @@ class MemberCommentAdapter(
     }
 
     override fun onBindViewHolder(holder: MemberCommentViewHolder, position: Int) {
-        holder.setViewHolderData(items[position], this.onItemClickListener, position);
+        holder.setViewHolderData(items[position], this.onItemClickListener, position)
     }
 }
 

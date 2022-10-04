@@ -22,16 +22,3 @@ class NewCommentViewModel(private val repository: MemberCommentRepository) : Vie
         }
     }
 }
-
-/**
- * @author Mohammad Askari
- */
-class NewCommentViewModelFactory(private val repository: MemberCommentRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(NewCommentViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return NewCommentViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
