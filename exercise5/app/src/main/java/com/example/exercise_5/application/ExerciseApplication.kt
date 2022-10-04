@@ -28,10 +28,13 @@ class ExerciseApplication : Application() {
 
     fun username(): String = this._username!!
 
+    //  App Scope
     private val applicationScope = CoroutineScope(SupervisorJob())
 
+    //  App Database
     private val appDatabase by lazy { AppDatabase.getInstance(this, applicationScope) }
 
+    //  App Repositories
     val memberRepository by lazy { MemberRepository(ApiClient.apiService, appDatabase.memberDao()) }
     val memberInfoRepository by lazy { MemberInfoRepository(ApiClient.apiService, appDatabase.memberInfoDao()) }
     val memberGradeRepository by lazy { MemberGradeRepository(ApiClient.apiService, appDatabase.memberGradeDao()) }

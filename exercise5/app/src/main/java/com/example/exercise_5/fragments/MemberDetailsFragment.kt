@@ -40,11 +40,16 @@ import com.example.exercise_5.ui.newgrade.NewGradingViewModelFactory
  */
 class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClickListener,
     MemberCommentViewHolder.Companion.OnMemberCommentClickListener {
+    //  ViewBinding
     lateinit var binding: MemberDetailsBinding
+
+    //  Navigation Arguments
     private val args: MemberDetailsFragmentArgs by navArgs()
 
+    //  Application
     private val application by lazy { requireActivity().application as ExerciseApplication }
 
+    //  ViewModels
     private val memberViewModel: MemberViewModel by viewModels { MemberViewModelFactory(application.memberRepository) }
     private val memberInfoViewModel: MemberInfoViewModel by viewModels { MemberInfoViewModelFactory(application.memberInfoRepository) }
     private val memberGradeViewModel: MemberGradeViewModel by viewModels { MemberGradeViewModelFactory(application.memberGradeRepository) }
@@ -52,8 +57,10 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
     private val newCommentViewModel: NewCommentViewModel by viewModels { NewCommentViewModelFactory(application.memberCommentRepository) }
     private val memberCommentViewModel: MemberCommentViewModel by viewModels { MemberCommentViewModelFactory(application.memberCommentRepository) }
 
+    //  LoggedIn Username
     private val username by lazy { (requireActivity().application as ExerciseApplication).username() }
 
+    //  Current Grade starts view references
     private val currentGrading by lazy {
         listOf(
             binding.currentGrading.rateOne,
@@ -64,6 +71,7 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
         )
     }
 
+    //  New Grade starts view references
     private val newGrading by lazy {
         listOf(
             binding.newGrading.rateOne,
@@ -82,32 +90,39 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //  Initializing ClickListeners
         binding.newGrading.clickListener = this
         binding.newComment.clickListener = this
         binding.editGrade.setOnClickListener { this.onEditGradeButtonClick(it) }
 
+        //  Listen to member changes
         memberViewModel.findOneByHetekaId(args.hetekaId).distinctUntilChanged().observe(viewLifecycleOwner) { member ->
             binding.member = member
         }
 
+        //  Listen to member comment section changes
         memberCommentViewModel.loadAllByHetekaId(args.hetekaId).distinctUntilChanged().observe(viewLifecycleOwner) { comments ->
             this.binding.commentSection.listRecycleView.layoutManager = LinearLayoutManager(requireContext())
             this.binding.commentSection.listRecycleView.adapter = MemberCommentAdapter(comments, this)
         }
 
+        //  Listen to member info changes
         memberInfoViewModel.getAll.distinctUntilChanged().observe(viewLifecycleOwner) { memberInfoList ->
             binding.memberInfo = memberInfoList.find { it.hetekaId == args.hetekaId }
         }
 
+        //  Listen to current grade value and update the grade number
         memberGradeViewModel.getGradeValue(args.hetekaId).distinctUntilChanged().observe(viewLifecycleOwner) { gradeValue ->
             binding.currentGrading.currentGrade.text = "$gradeValue"
         }
 
+        //  Listen to current grade count value and update grade count
         memberGradeViewModel.getGradeCount(args.hetekaId).distinctUntilChanged().observe(viewLifecycleOwner) { count ->
             @SuppressLint("SetTextI18n")
             binding.currentGrading.gradeCount.text = "($count)"
         }
 
+        //  Listen to current grade rounded value and update stars drawable
         memberGradeViewModel.getRoundedGrade(args.hetekaId).distinctUntilChanged().observe(viewLifecycleOwner) { rounded ->
             for (i in 0..4) {
                 val resource = if ((i + 1) <= rounded) R.drawable.start_filled else R.drawable.star_empty
@@ -115,6 +130,7 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
             }
         }
 
+        //  Listen to new grade value and update stars drawable
         newGradeViewModel.currentGrade(username, args.hetekaId).observe(viewLifecycleOwner) { currentGrade ->
             if (currentGrade != null) {
                 for (i in 0 until newGrading.count()) {
@@ -123,6 +139,7 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
             }
         }
 
+        //  Listen to isGraded to see if we need to disable the starts to prevent extra calls and also add some opacity
         newGradeViewModel.isGraded(username, args.hetekaId).observe(viewLifecycleOwner) { isGraded ->
             binding.editGrade.visibility = if (isGraded) View.VISIBLE else View.INVISIBLE
             for (imageButton in newGrading) {
@@ -134,6 +151,7 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
     }
 
     private fun onEditGradeButtonClick(v: View?) {
+        //  Enable the buttons and hide edit button.
         binding.editGrade.visibility = View.INVISIBLE
         for (imageButton in newGrading) {
             imageButton.isEnabled = true
@@ -144,7 +162,7 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
 
     override fun onGradeButtonClick(v: View?, index: Int) {
         newGradeViewModel.createNewGrade(username, args.hetekaId, index) {
-            Toast.makeText(requireContext(), "Successfully graded!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.graded), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -154,12 +172,15 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
         }
 
         newCommentViewModel.createNewComment(username, args.hetekaId, binding.newComment.commentText.text.toString()) {
-            Toast.makeText(requireContext(), "Successfully commented!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.commented), Toast.LENGTH_SHORT).show()
             binding.newComment.commentText.setText("")
         }
     }
 
     companion object {
+        /**
+         * Endpoint to get the image for details page.
+         */
         @JvmStatic
         @BindingAdapter("loadDetailsPageImage")
         fun loadDetailsPageImage(view: ImageView, imageId: String?) {
@@ -173,6 +194,6 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
     }
 
     override fun onMemberCommentClick(v: View?, index: Number) {
-
+        //  Nothing to do for now.
     }
 }

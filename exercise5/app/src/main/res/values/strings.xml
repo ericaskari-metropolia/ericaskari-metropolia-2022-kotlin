@@ -12,6 +12,7 @@
     <string name="login">Login as Guest</string>
     <string name="nickname">Nickname</string>
     <string name="view_all_parliament_members">View All Parliament members</string>
+    <string name="welcome_username">Hello, %1$s!</string>
     <string name="view_parties">View Parties</string>
     <string name="seat_count">Seat count</string>
     <string name="name">Name</string>
@@ -27,4 +28,7 @@
     <string name="born_year">born year</string>
     <string name="party">Party</string>
     <string name="image">Image</string>
+    <string name="nickname_required">Nickname is required and it can be anything.</string>
+    <string name="graded">Successfully graded!</string>
+    <string name="commented">Successfully commented!</string>
 </resources>

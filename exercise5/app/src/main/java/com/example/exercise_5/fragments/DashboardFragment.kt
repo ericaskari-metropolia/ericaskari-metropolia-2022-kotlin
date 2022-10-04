@@ -10,15 +10,12 @@ import com.example.exercise_5.databinding.DashboardBinding
 
 /**
  * @author Mohammad Askari
+ * Dashboard view
  */
 class DashboardFragment : Fragment() {
     lateinit var binding: DashboardBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DashboardBinding.inflate(inflater, container, false)
         binding.viewParties.setOnClickListener { this.onViewPartiesButtonClick(it) }
         return binding.root;
