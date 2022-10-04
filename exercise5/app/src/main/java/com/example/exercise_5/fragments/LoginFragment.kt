@@ -16,11 +16,7 @@ import com.example.exercise_5.databinding.LoginBinding
 class LoginFragment : Fragment() {
     lateinit var binding: LoginBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = LoginBinding.inflate(inflater, container, false)
         return binding.root;
     }
