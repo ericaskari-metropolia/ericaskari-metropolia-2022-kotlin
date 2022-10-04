@@ -9,7 +9,7 @@ import androidx.room.*
 @Dao
 interface MemberInfoDao {
     @Query("SELECT * FROM MemberInfo")
-    fun getAll(): LiveData<List<MemberInfo>>
+    fun find(): LiveData<List<MemberInfo>>
 
     @Query("SELECT * FROM MemberInfo WHERE hetekaId IN (:hetekaIds)")
     fun loadAllByIds(hetekaIds: IntArray): List<MemberInfo>

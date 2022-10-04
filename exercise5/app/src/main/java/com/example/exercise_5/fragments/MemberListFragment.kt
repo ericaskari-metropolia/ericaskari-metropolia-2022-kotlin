@@ -15,21 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.exercise_5.R
 import com.example.exercise_5.application.ExerciseApplication
-import com.example.exercise_5.databinding.MemberDetailsBinding
 import com.example.exercise_5.databinding.MemberListBinding
-import com.example.exercise_5.databinding.MemberListItemBinding
 import com.example.exercise_5.network.ImageApiClient
 import com.example.exercise_5.ui.member.*
-import com.example.exercise_5.ui.membercomment.MemberCommentViewModel
-import com.example.exercise_5.ui.membercomment.MemberCommentViewModelFactory
-import com.example.exercise_5.ui.membergrade.MemberGradeViewModel
-import com.example.exercise_5.ui.membergrade.MemberGradeViewModelFactory
 import com.example.exercise_5.ui.memberinfo.MemberInfoViewModel
 import com.example.exercise_5.ui.memberinfo.MemberInfoViewModelFactory
-import com.example.exercise_5.ui.newcomment.NewCommentViewModel
-import com.example.exercise_5.ui.newcomment.NewCommentViewModelFactory
-import com.example.exercise_5.ui.newgrade.NewGradeViewModel
-import com.example.exercise_5.ui.newgrade.NewGradingViewModelFactory
 
 /**
  * @author Mohammad Askari
@@ -59,7 +49,7 @@ class MemberListPageFragment : Fragment(), MemberViewHolder.Companion.OnParliame
         super.onViewCreated(view, savedInstanceState)
 
         //  Listen to arg party members and update the adapter
-        memberViewModel.getAllByPartyName(args.partyName).distinctUntilChanged().observe(viewLifecycleOwner) { members ->
+        memberViewModel.findByPartyName(args.partyName).distinctUntilChanged().observe(viewLifecycleOwner) { members ->
             this.binding.listRecycleView.layoutManager = LinearLayoutManager(requireContext())
             this.binding.listRecycleView.adapter = MembersAdapter(members, this)
         }

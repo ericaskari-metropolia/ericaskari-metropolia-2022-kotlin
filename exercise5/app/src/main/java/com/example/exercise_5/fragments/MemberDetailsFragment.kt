@@ -101,7 +101,7 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
         }
 
         //  Listen to member comment section changes
-        memberCommentViewModel.loadAllByHetekaId(args.hetekaId).distinctUntilChanged().observe(viewLifecycleOwner) { comments ->
+        memberCommentViewModel.findByHetekaId(args.hetekaId).distinctUntilChanged().observe(viewLifecycleOwner) { comments ->
             this.binding.commentSection.listRecycleView.layoutManager = LinearLayoutManager(requireContext())
             this.binding.commentSection.listRecycleView.adapter = MemberCommentAdapter(comments, this)
         }

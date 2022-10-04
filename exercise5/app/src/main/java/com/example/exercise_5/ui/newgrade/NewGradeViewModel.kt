@@ -27,7 +27,7 @@ class NewGradeViewModel(private val repository: MemberGradeRepository) : ViewMod
 
 
     fun currentGrade(username: String, hetekaId: Int): LiveData<Int?> {
-        return repository.getAll()
+        return repository.find()
             .map { grades -> grades.filter { grade -> grade.username == username && grade.hetekaId == hetekaId }.firstOrNull()?.grade }
     }
 

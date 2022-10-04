@@ -6,13 +6,13 @@ import com.example.exercise_5.network.ApiService
  * @author Mohammad Askari
  */
 class MemberCommentRepository(private val apiService: ApiService, private val dao: MemberCommentDao) {
-    fun getAll() = dao.getAll()
+    fun find() = dao.find()
+
+    fun findByHetekaId(hetekaId: Int) = dao.findByHetekaId(hetekaId)
+
+    fun insert(vararg items: MemberComment) = dao.insert(*items)
 
     fun deleteAll() = dao.deleteAll()
-
-    fun loadAllByHetekaIds(vararg items: Int) = dao.loadAllByHetekaIds(items)
-
-    fun insert(vararg items: MemberComment) = dao.insertAll(*items)
 
     suspend fun fetch(): List<MemberComment> = apiService.getMemberCommentList()
 }

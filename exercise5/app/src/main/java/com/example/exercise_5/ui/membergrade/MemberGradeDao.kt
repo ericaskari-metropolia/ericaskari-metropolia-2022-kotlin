@@ -9,20 +9,20 @@ import androidx.room.*
 @Dao
 interface MemberGradeDao {
     @Query("SELECT * FROM MemberGrade")
-    fun getAll(): LiveData<List<MemberGrade>>
+    fun find(): LiveData<List<MemberGrade>>
 
-    @Query("SELECT * FROM MemberGrade WHERE hetekaId IN (:hetekaIds)")
-    fun loadAllByIds(hetekaIds: IntArray): List<MemberGrade>
+    @Query("SELECT * FROM MemberGrade WHERE hetekaId = :hetekaId")
+    fun findByHetekaId(hetekaId: Int): LiveData<List<MemberGrade>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg users: MemberGrade)
-
-    @Query("DELETE FROM MemberGrade")
-    fun deleteAll()
-
-    @Query("DELETE FROM MemberGrade WHERE hetekaId IN (:hetekaIds)")
-    fun deleteMultiple(hetekaIds: IntArray)
+    fun insert(vararg users: MemberGrade)
 
     @Delete
     fun delete(user: MemberGrade)
+
+    @Query("DELETE FROM MemberGrade WHERE hetekaId IN (:hetekaIds)")
+    fun deleteByHetekaIds(hetekaIds: IntArray)
+
+    @Query("DELETE FROM MemberGrade")
+    fun deleteAll()
 }

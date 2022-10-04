@@ -1,23 +1,20 @@
 package com.example.exercise_5.ui.membergrade
 
 import androidx.lifecycle.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.math.RoundingMode
 
 /**
  * @author Mohammad Askari
  */
 class MemberGradeViewModel(private val repository: MemberGradeRepository) : ViewModel() {
-    val getAll: LiveData<List<MemberGrade>> = repository.getAll()
+    val items: LiveData<List<MemberGrade>> = repository.find()
 
     /**
      * One decimal precision grade value
      */
-    fun getGradeValue(userId: Int) = getAll.map { allRatings ->
-        val all = allRatings.filter { it.hetekaId == userId }.map { it.grade }
-        val sum = all.sum()
-        val average: Float = if (all.isEmpty()) 0F else (sum.toFloat() / all.count())
+    fun getGradeValue(hetekaId: Int) = repository.findByHetekaId(hetekaId).map { allRatings ->
+        val sum = allRatings.sumOf { it.grade }
+        val average: Float = if (allRatings.isEmpty()) 0F else (sum.toFloat() / allRatings.count())
         return@map average.toBigDecimal().setScale(1, RoundingMode.HALF_UP)
     }
 
@@ -28,16 +25,8 @@ class MemberGradeViewModel(private val repository: MemberGradeRepository) : View
         return@map it.setScale(0, RoundingMode.HALF_UP).toInt()
     }
 
-    fun getGradeCount(userId: Int) = getAll.map { allRatings ->
-        val all = allRatings.filter { it.hetekaId == userId }.map { it.grade }
+    fun getGradeCount(hetekaId: Int) = repository.findByHetekaId(hetekaId).map { allRatings ->
+        val all = allRatings.map { it.grade }
         return@map all.count()
-    }
-
-
-    fun populate() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val members = repository.fetch()
-            repository.insert(*members.toTypedArray())
-        }
     }
 }

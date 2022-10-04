@@ -2,7 +2,6 @@ package com.example.exercise_5.ui.member
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -11,9 +10,9 @@ import kotlinx.coroutines.launch
  * @author Mohammad Askari
  */
 class MemberViewModel(private val repository: MemberRepository) : ViewModel() {
-    val getAll: LiveData<List<Member>> = repository.getAll()
+    val items: LiveData<List<Member>> = repository.find()
 
-    fun getAllByPartyName(party: String): LiveData<List<Member>> = repository.getAllByPartyName(party)
+    fun findByPartyName(party: String): LiveData<List<Member>> = repository.findByPartyName(party)
 
     fun findOneByHetekaId(id: Int): LiveData<Member?> = repository.findOneByHetekaId(id)
 

@@ -6,7 +6,7 @@ import com.example.exercise_5.network.ApiService
  * @author Mohammad Askari
  */
 class MemberInfoRepository(private val apiService: ApiService, private val dao: MemberInfoDao) {
-    fun getAll() = dao.getAll()
+    fun getAll() = dao.find()
 
     fun insert(vararg items: MemberInfo) = dao.insertAll(*items)
 
