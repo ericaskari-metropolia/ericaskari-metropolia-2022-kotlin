@@ -64,7 +64,7 @@ class MemberListPageFragment : Fragment(), MemberViewHolder.Companion.OnParliame
             this.binding.listRecycleView.adapter = MembersAdapter(members, this)
         }
 
-        //  Populate the db.
+        //  Get necessary data.
         memberViewModel.populate()
         memberInfoViewModel.populate()
     }
@@ -72,12 +72,6 @@ class MemberListPageFragment : Fragment(), MemberViewHolder.Companion.OnParliame
     override fun onParliamentMemberClick(v: View?, member: Member) {
         val action = MemberListPageFragmentDirections.toParliamentMemberDetailsFragmentAction(member.hetekaId)
         findNavController().navigate(action)
-    }
-}
-
-class MemberListItemFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return MemberListItemBinding.inflate(inflater, container, false).root
     }
 
     companion object {
