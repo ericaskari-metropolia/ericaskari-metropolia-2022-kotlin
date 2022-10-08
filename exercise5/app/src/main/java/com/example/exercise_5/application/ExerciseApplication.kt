@@ -19,11 +19,7 @@ class ExerciseApplication : Application() {
     private var _username: String? = null
 
     fun login(username: String) {
-        if (_username == null) {
-            this._username = username
-        } else {
-            //  Say logout first.
-        }
+        this._username = username
     }
 
     fun username(): String = this._username!!
