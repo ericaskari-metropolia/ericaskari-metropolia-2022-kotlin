@@ -162,6 +162,7 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
 
     override fun onGradeButtonClick(v: View?, index: Int) {
         newGradeViewModel.createNewGrade(username, args.hetekaId, index) {
+            //  When grading successfully registered.
             Toast.makeText(requireContext(), getString(R.string.graded), Toast.LENGTH_SHORT).show()
         }
     }
@@ -172,6 +173,7 @@ class MemberDetailsFragment : Fragment(), NewGradeClickListener, NewCommentClick
         }
 
         newCommentViewModel.createNewComment(username, args.hetekaId, binding.newComment.commentText.text.toString()) {
+            //  When commenting successfully registered.
             Toast.makeText(requireContext(), getString(R.string.commented), Toast.LENGTH_SHORT).show()
             binding.newComment.commentText.setText("")
         }

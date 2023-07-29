@@ -19,7 +19,7 @@ data class Member(
 ) {
 
     fun fullName(): String {
-        return this.firstname + ' ' + this.lastname
+        return "${this.firstname} ${this.lastname}"
     }
 }
 
